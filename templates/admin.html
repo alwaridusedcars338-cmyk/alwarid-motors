@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم معرض الوارد - إضافة سيارة</title>
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            background: #1a1a1a; font-family: 'Tajawal', sans-serif; color: #fff;
+            display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px;
+        }
+        .admin-box { 
+            background: #2a2a2a; padding: 30px; border-radius: 15px; 
+            max-width: 500px; width: 100%; border: 1px solid #444; box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+        h1 { font-size: 24px; text-align: center; margin-bottom: 25px; color: #ff3333; }
+        .form-group { margin-bottom: 18px; }
+        label { display: block; margin-bottom: 8px; font-size: 14px; color: #ccc; }
+        input[type="text"] { 
+            width: 100%; padding: 12px; background: #333; border: 1px solid #555; 
+            border-radius: 6px; color: #fff; font-size: 16px; font-family: 'Tajawal', sans-serif;
+        }
+        input[type="text"]:focus { border-color: #ff3333; outline: none; }
+        .btn-submit { 
+            width: 100%; background: #ff3333; color: white; padding: 14px; 
+            border: none; font-size: 18px; font-weight: bold; border-radius: 6px; 
+            cursor: pointer; transition: background 0.3s; margin-top: 10px; font-family: 'Tajawal', sans-serif;
+        }
+        .btn-submit:hover { background: #cc2424; }
+    </style>
+</head>
+<body>
+
+    <div class="admin-box">
+        <h1>لوحة تحكم إضافة السيارات لـ "الوارد"</h1>
+        <form method="POST">
+            <div class="form-group">
+                <label>اسم السيارة وموديلها:</label>
+                <input type="text" name="title" placeholder="مثال: نيسان باترول SE" required>
+            </div>
+            <div class="form-group">
+                <label>سعر السيارة:</label>
+                <input type="text" name="price" placeholder="مثال: 120,000 ريال" required>
+            </div>
+            <div class="form-group">
+                <label>رابط صورة السيارة على الإنترنت:</label>
+                <input type="text" name="image_url" placeholder="ضع رابط الصورة هنا (اختياري)">
+            </div>
+            <div class="form-group">
+                <label>المواصفة الأولى:</label>
+                <input type="text" name="spec1" placeholder="مثال: الممشى 50,000 كم">
+            </div>
+            <div class="form-group">
+                <label>المواصفة الثانية:</label>
+                <input type="text" name="spec2" placeholder="مثال: محرك 6 سلندر">
+            </div>
+            <div class="form-group">
+                <label>المواصفة الثالثة:</label>
+                <input type="text" name="spec3" placeholder="مثال: صبغة وكالة بالكامل">
+            </div>
+            <button type="submit" class="btn-submit">نشر السيارة في المعرض فوراً 🚀</button>
+        </form>
+    </div>
+
+</body>
+</html>
