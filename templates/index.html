@@ -10,14 +10,14 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { 
-            /* خلفية بيضاء مريحة للعين مدمجة مع صور تطور أجيال لاندكروزر من القديم للحديث */
-            background-image: linear-gradient(rgba(255, 255, 255, 0.92), rgba(244, 246, 249, 0.96)), url('https://r2.dev'); 
+            /* خلفية بيضاء ثلجية مريحة جداً للعين ومدمجة مع صورة بانورامية لأجيال وتطور لاندكروزر بالكامل */
+            background-image: linear-gradient(rgba(255, 255, 255, 0.92), rgba(244, 246, 249, 0.96)), url('https://unsplash.com'); 
             background-size: cover; background-position: center; background-attachment: fixed;
             font-family: 'Tajawal', sans-serif; color: #1e293b; padding: 40px 20px;
             overflow-x: hidden;
         }
         
-        /* شريط التحكم والترتيب المطور أعلى اليمين */
+        /* شريط الترتيب والتصنيف المطور في أعلى اليمين بالتوالي */
         .top-navbar {
             max-width: 1200px; margin: 0 auto 20px auto; display: flex; justify-content: flex-start; padding: 0 10px;
         }
@@ -49,7 +49,7 @@
             content: ''; display: block; width: 60px; height: 4px; background: #bd1c1c; margin: 8px auto 0 auto; border-radius: 2px;
         }
         
-        /* بطاقات عرض السيارات الزجاجية البيضاء الفاخرة */
+        /* بطاقات عرض السيارات الزجاجية البيضاء الفاخرة المريحة للعين */
         .cars-grid { display: flex; flex-wrap: wrap; gap: 40px; justify-content: center; max-width: 1200px; margin: 0 auto 40px auto; }
         .car-card { 
             background: rgba(255, 255, 255, 0.88); border-radius: 20px; overflow: hidden; width: 360px; 
@@ -77,6 +77,7 @@
         .car-specs li { font-size: 14px; color: #475569; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; font-weight: 500; }
         .spec-icon { color: #bd1c1c; font-size: 14px; }
         
+        /* زر تواصل مباشر يفتح تطبيق الواتساب بنجاح وبدون أي حظر */
         .btn-inquire { 
             background: linear-gradient(135deg, #25D366, #128C7E); color: white; padding: 13px; text-decoration: none; font-size: 16px; font-weight: bold; border-radius: 12px; display: flex; justify-content: center; align-items: center; gap: 8px; transition: all 0.3s; 
             box-shadow: 0 4px 12px rgba(37, 211, 102, 0.2); animation: pulse-whatsapp 2s infinite;
@@ -92,7 +93,7 @@
 </head>
 <body>
 
-    <!-- شارات خيارات الترتيب أعلى اليمين بالتوالي -->
+    <!-- أزرار الترتيب مصفوفة بدقة في أعلى اليمين بالتوالي -->
     <nav class="top-navbar">
         <div class="filter-container">
             <button class="filter-btn active">الكل 📋</button>
@@ -107,6 +108,7 @@
         <p class="welcome-msg">أهلاً وسهلاً بك في معرض الوارد لتجارة السيارات المستعملة. نقدّم لك أفخم وأجود السيارات المستعملة بأفضل الأسعار وبحالة الوكالة.</p>
     </header>
 
+    <!-- قسم الأكثر شعبية -->
     <div class="section-title">🔥 الأكثر شعبية في المعرض</div>
     <div class="cars-grid">
         {% for car in cars %}
@@ -129,6 +131,7 @@
         {% endfor %}
     </div>
 
+    <!-- قسم عروض أسعار الحرق -->
     <div class="section-title">⚡ عروض أسعار الحرق (لفترة محدودة)</div>
     <div class="cars-grid">
         <div class="car-card">
