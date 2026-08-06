@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>معرض الوارد لتجارة السيارات المستعملة</title>
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Reem+Kufi:wght@700&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.9)), url('https://unsplash.com'); 
+            background-size: cover; background-position: center; background-attachment: fixed;
+            font-family: 'Tajawal', sans-serif; color: #fff; padding: 40px 20px;
+        }
+        header { text-align: center; margin-bottom: 40px; }
+        .logo-text { font-family: 'Reem Kufi', sans-serif; font-size: 54px; color: #ffffff; text-shadow: 0 0 10px #ff3333, 0 0 20px #ff3333; letter-spacing: 2px; margin-bottom: 5px; font-weight: 700; }
+        .sub-logo { font-size: 16px; color: #b3b3b3; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 15px; font-weight: bold; }
+        .welcome-msg { color: #ccd1d9; font-size: 18px; max-width: 600px; margin: 0 auto; line-height: 1.6; }
+        
+        .cars-grid { display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; max-width: 1200px; margin: 0 auto; }
+        .car-card { background: rgba(25, 25, 25, 0.9); border-radius: 15px; overflow: hidden; width: 350px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 25px rgba(0,0,0,0.5); backdrop-filter: blur(10px); transition: transform 0.3s; }
+        .car-card:hover { transform: translateY(-5px); }
+        .car-img { width: 100%; height: 220px; object-fit: cover; }
+        .car-info { padding: 25px; }
+        .car-title { font-size: 22px; margin-bottom: 10px; color: #fff; }
+        .car-price { font-size: 20px; color: #ff3333; font-weight: bold; margin-bottom: 15px; }
+        .car-specs { list-style: none; margin-bottom: 20px; }
+        .car-specs li { font-size: 15px; color: #b3b3b3; margin-bottom: 8px; display: flex; gap: 8px; }
+        
+        .btn-inquire { 
+            background: linear-gradient(135deg, #25D366, #128C7E); color: white; padding: 12px; text-decoration: none; font-size: 16px; font-weight: bold; border-radius: 8px; display: flex; justify-content: center; align-items: center; gap: 8px; transition: background 0.3s; 
+        }
+        .btn-inquire:hover { filter: brightness(1.1); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-text">الـوَارد</div>
+        <div class="sub-logo">AL-WARID MOTORS</div>
+        <p class="welcome-msg">أهلاً وسهلاً بك في معرض الوارد لتجارة السيارات المستعملة. تصفح تشكيلتنا المميزة من السيارات المتوفرة ومواصفاتها، واضغط للاستفسار عن أي سيارة.</p>
+    </header>
+
+    <main class="cars-grid">
+        {% for car in cars %}
+        <div class="car-card">
+            <img src="{{ car.image }}" alt="{{ car.title }}" class="car-img">
+            <div class="car-info">
+                <h2 class="car-title">{{ car.title }}</h2>
+                <div class="car-price">{{ car.price }}</div>
+                <ul class="car-specs">
+                    {% for spec in car.specs %}
+                    <li>✨ {{ spec }}</li>
+                    {% endfor %}
+                </ul>
+                <a href="https://wa.me{{ car.title }}" class="btn-inquire" target="_blank">استفسر عبر الواتساب 💬</a>
+            </div>
+        </div>
+        {% endfor %}
+    </main>
+
+</body>
+</html>
