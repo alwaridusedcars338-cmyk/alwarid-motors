@@ -10,90 +10,96 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { 
-            /* خلفية متحركة وفخمة جداً */
-            background-image: linear-gradient(rgba(0, 0, 0, 0.82), rgba(0, 0, 0, 0.96)), url('https://unsplash.com'); 
+            /* خلفية بيضاء مريحة للعين مدمجة مع صور تطور أجيال لاندكروزر من القديم للحديث */
+            background-image: linear-gradient(rgba(255, 255, 255, 0.92), rgba(244, 246, 249, 0.96)), url('https://r2.dev'); 
             background-size: cover; background-position: center; background-attachment: fixed;
-            font-family: 'Tajawal', sans-serif; color: #fff; padding: 60px 20px;
+            font-family: 'Tajawal', sans-serif; color: #1e293b; padding: 40px 20px;
             overflow-x: hidden;
         }
-        header { text-align: center; margin-bottom: 60px; position: relative; }
         
-        /* تلميع النيون للشعار */
-        .logo-text { 
-            font-family: 'Reem Kufi', sans-serif; 
-            font-size: 64px; 
-            color: #ffffff; 
-            text-shadow: 0 0 10px #ff3333, 0 0 20px #ff3333, 0 0 40px #ff0000; 
-            letter-spacing: 3px; margin-bottom: 5px; font-weight: 700;
-            animation: pulse-glow 2s infinite alternate;
+        /* شريط التحكم والترتيب المطور أعلى اليمين */
+        .top-navbar {
+            max-width: 1200px; margin: 0 auto 20px auto; display: flex; justify-content: flex-start; padding: 0 10px;
         }
-        .sub-logo { font-family: 'Orbitron', sans-serif; font-size: 16px; color: #ff3333; text-transform: uppercase; letter-spacing: 6px; margin-bottom: 20px; font-weight: bold; }
-        .welcome-msg { color: #b3b9c1; font-size: 19px; max-width: 650px; margin: 0 auto; line-height: 1.8; }
+        .filter-container {
+            background: rgba(255, 255, 255, 0.9); padding: 6px 12px; border-radius: 30px;
+            border: 1px solid rgba(189, 28, 28, 0.15); box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            display: flex; gap: 10px; backdrop-filter: blur(10px);
+        }
+        .filter-btn {
+            background: transparent; border: none; padding: 8px 18px; font-family: 'Tajawal', sans-serif;
+            font-size: 14px; font-weight: bold; color: #475569; cursor: pointer; border-radius: 20px; transition: all 0.3s;
+        }
+        .filter-btn.active, .filter-btn:hover {
+            background: #bd1c1c; color: #fff; box-shadow: 0 2px 8px rgba(189, 28, 28, 0.3);
+        }
+
+        header { text-align: center; margin-bottom: 50px; }
+        .logo-text { 
+            font-family: 'Reem Kufi', sans-serif; font-size: 60px; color: #bd1c1c; 
+            text-shadow: 0 2px 10px rgba(189, 28, 28, 0.15); letter-spacing: 2px; margin-bottom: 5px; font-weight: 700;
+        }
+        .sub-logo { font-family: 'Orbitron', sans-serif; font-size: 15px; color: #bd1c1c; text-transform: uppercase; letter-spacing: 5px; margin-bottom: 15px; font-weight: bold; }
+        .welcome-msg { color: #475569; font-size: 18px; max-width: 650px; margin: 0 auto; line-height: 1.8; font-weight: bold; }
         
-        /* عناوين الأقسام بنكهة رياضية */
         .section-title { 
-            text-align: center; font-size: 32px; color: #fff; margin: 60px 0 30px 0; 
-            font-family: 'Reem Kufi', sans-serif; position: relative;
+            text-align: center; font-size: 30px; color: #bd1c1c; margin: 50px 0 25px 0; font-family: 'Reem Kufi', sans-serif;
         }
         .section-title::after {
-            content: ''; display: block; width: 80px; height: 4px; background: #ff3333; margin: 10px auto 0 auto; border-radius: 2px;
-            box-shadow: 0 0 8px #ff3333;
+            content: ''; display: block; width: 60px; height: 4px; background: #bd1c1c; margin: 8px auto 0 auto; border-radius: 2px;
         }
         
-        /* شبكة وبطاقات السيارات الزجاجية ثلاثية الأبعاد */
-        .cars-grid { display: flex; flex-wrap: wrap; gap: 40px; justify-content: center; max-width: 1200px; margin: 0 auto; }
+        /* بطاقات عرض السيارات الزجاجية البيضاء الفاخرة */
+        .cars-grid { display: flex; flex-wrap: wrap; gap: 40px; justify-content: center; max-width: 1200px; margin: 0 auto 40px auto; }
         .car-card { 
-            background: rgba(25, 25, 25, 0.65); 
-            border-radius: 20px; overflow: hidden; width: 360px; 
-            border: 1px solid rgba(255, 255, 255, 0.08); 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.7); 
+            background: rgba(255, 255, 255, 0.88); border-radius: 20px; overflow: hidden; width: 360px; 
+            border: 1px solid rgba(255, 255, 255, 0.8); box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
             backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
             transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); position: relative; 
         }
         .car-card:hover { 
-            transform: translateY(-10px) scale(1.02); 
-            border-color: rgba(255, 51, 51, 0.4);
-            box-shadow: 0 20px 40px rgba(255, 51, 51, 0.15);
+            transform: translateY(-8px); border-color: rgba(189, 28, 28, 0.3); box-shadow: 0 15px 35px rgba(189, 28, 28, 0.1);
         }
         
-        /* شارات الأقسام العصرية */
-        .badge { position: absolute; top: 15px; right: 15px; padding: 6px 16px; border-radius: 30px; font-size: 13px; font-weight: bold; z-index: 2; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .badge { position: absolute; top: 15px; right: 15px; padding: 6px 15px; border-radius: 30px; font-size: 12px; font-weight: bold; z-index: 2; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         .badge-popular { background: linear-gradient(135deg, #ff9f43, #ff5252); color: #fff; }
         .badge-fire { background: linear-gradient(135deg, #ff3333, #990000); color: #fff; }
 
-        .car-img-container { width: 100%; height: 230px; overflow: hidden; position: relative; }
+        .car-img-container { width: 100%; height: 230px; overflow: hidden; position: relative; background: #e2e8f0; }
         .car-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
-        .car-card:hover .car-img { transform: scale(1.08); }
+        .car-card:hover .car-img { transform: scale(1.06); }
         
-        .car-info { padding: 30px; background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.4)); }
-        .car-title { font-size: 24px; margin-bottom: 12px; color: #fff; font-weight: 700; }
-        .car-price { font-size: 22px; color: #ff3333; font-weight: bold; margin-bottom: 20px; display: inline-block; text-shadow: 0 0 10px rgba(255,51,51,0.2); }
+        .car-info { padding: 25px; }
+        .car-title { font-size: 22px; margin-bottom: 10px; color: #0f172a; font-weight: 700; }
+        .car-price { font-size: 20px; color: #bd1c1c; font-weight: bold; margin-bottom: 18px; display: inline-block; }
         
-        .car-specs { list-style: none; margin-bottom: 25px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px; }
-        .car-specs li { font-size: 15px; color: #cbd5e1; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
-        .spec-icon { color: #ff3333; font-size: 16px; }
+        .car-specs { list-style: none; margin-bottom: 22px; border-top: 1px solid rgba(0,0,0,0.06); padding-top: 12px; }
+        .car-specs li { font-size: 14px; color: #475569; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; font-weight: 500; }
+        .spec-icon { color: #bd1c1c; font-size: 14px; }
         
-        /* زر الواتساب النابض الخيالي والمعدل للتطبيق */
         .btn-inquire { 
-            background: linear-gradient(135deg, #25D366, #128C7E); color: white; padding: 14px; text-decoration: none; font-size: 17px; font-weight: bold; border-radius: 12px; display: flex; justify-content: center; align-items: center; gap: 10px; transition: all 0.3s; 
-            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
-            animation: pulse-whatsapp 2s infinite;
+            background: linear-gradient(135deg, #25D366, #128C7E); color: white; padding: 13px; text-decoration: none; font-size: 16px; font-weight: bold; border-radius: 12px; display: flex; justify-content: center; align-items: center; gap: 8px; transition: all 0.3s; 
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.2); animation: pulse-whatsapp 2s infinite;
         }
-        .btn-inquire:hover { filter: brightness(1.15); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5); }
+        .btn-inquire:hover { filter: brightness(1.1); transform: translateY(-1px); }
         
-        /* الحركات السحرية للنيون والنبض */
-        @keyframes pulse-glow {
-            0% { text-shadow: 0 0 10px #ff3333, 0 0 20px #ff3333; }
-            100% { text-shadow: 0 0 15px #ff3333, 0 0 30px #ff2222, 0 0 50px #ff0000; }
-        }
         @keyframes pulse-whatsapp {
             0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4); }
-            70% { box-shadow: 0 0 0 12px rgba(37, 211, 102, 0); }
+            70% { box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
             100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
         }
     </style>
 </head>
 <body>
+
+    <!-- شارات خيارات الترتيب أعلى اليمين بالتوالي -->
+    <nav class="top-navbar">
+        <div class="filter-container">
+            <button class="filter-btn active">الكل 📋</button>
+            <button class="filter-btn">الأكثر شعبية ⭐</button>
+            <button class="filter-btn">أسعار الحرق ⚡</button>
+        </div>
+    </nav>
 
     <header>
         <div class="logo-text">الـوَارد</div>
@@ -101,7 +107,6 @@
         <p class="welcome-msg">أهلاً وسهلاً بك في معرض الوارد لتجارة السيارات المستعملة. نقدّم لك أفخم وأجود السيارات المستعملة بأفضل الأسعار وبحالة الوكالة.</p>
     </header>
 
-    <!-- قسم الأكثر شعبية -->
     <div class="section-title">🔥 الأكثر شعبية في المعرض</div>
     <div class="cars-grid">
         {% for car in cars %}
@@ -115,16 +120,15 @@
                 <div class="car-price">{{ car.price }}</div>
                 <ul class="car-specs">
                     {% for spec in car.specs %}
-                    <li><span class="spec-icon">⚡</span> {{ spec }}</li>
+                    <li><span class="spec-icon">⚪</span> {{ spec }}</li>
                     {% endfor %}
                 </ul>
-                <a href="https://whatsapp.com{{ car.title }}" class="btn-inquire" target="_blank">استفسر عبر الواتساب 💬</a>
+                <a href="https://wa.me{{ car.title }}" class="btn-inquire" target="_blank">استفسر عبر الواتساب 💬</a>
             </div>
         </div>
         {% endfor %}
     </div>
 
-    <!-- قسم عروض أسعار الحرق -->
     <div class="section-title">⚡ عروض أسعار الحرق (لفترة محدودة)</div>
     <div class="cars-grid">
         <div class="car-card">
@@ -134,13 +138,13 @@
             </div>
             <div class="car-info">
                 <h2 class="car-title">بي إم دبليو الفئة الخامسة</h2>
-                <div class="car-price">130,000 درهم <span style="font-size:14px; color:#aaa; text-decoration:line-through;">(160,000)</span></div>
+                <div class="car-price">130,000 درهم <span style="font-size:13px; color:#64748b; text-decoration:line-through;">(160,000)</span></div>
                 <ul class="car-specs">
-                    <li><span class="spec-icon">⚡</span> الممشى: 30,000 كم</li>
-                    <li><span class="spec-icon">⚡</span> الموديل: 2021</li>
-                    <li><span class="spec-icon">⚡</span> صيانة وكالة بالكامل وعرض خاص حرق</li>
+                    <li><span class="spec-icon">⚪</span> الممشى: 30,000 كم</li>
+                    <li><span class="spec-icon">⚪</span> الموديل: 2021</li>
+                    <li><span class="spec-icon">⚪</span> صيانة وكالة بالكامل وعرض خاص حرق</li>
                 </ul>
-                <a href="https://whatsapp.com" class="btn-inquire" target="_blank">استفسر عن عرض الحرق 💬</a>
+                <a href="https://wa.me" class="btn-inquire" target="_blank">استفسر عن عرض الحرق 💬</a>
             </div>
         </div>
     </div>
