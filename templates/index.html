@@ -1,1355 +1,348 @@
+```python
+from flask import Flask, render_template_string, send_from_directory
+
+app = Flask(__name__)
+
+HTML = """
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-
+<html lang="en">
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>AL-WARID MOTORS | معرض الوارد للسيارات</title>
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Reem+Kufi:wght@500;700&family=Tajawal:wght@400;500;700;800&display=swap"
-        rel="stylesheet"
-    >
+    <title>ALWARID-MOTORS</title>
 
     <style>
-
-        /* =====================================================
-           GENERAL
-        ===================================================== */
-
         * {
             box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-
-            margin: 0;
-
-            min-height: 100vh;
-
-            font-family: 'Tajawal', sans-serif;
-
-            color: #0f172a;
-
-            /*
-                YOUR UPLOADED BACKGROUND IMAGE
-
-                Put the image here:
-
-                static/images/alwarid-background.png
-            */
-
-            background-image:
-
-                linear-gradient(
-                    rgba(5, 10, 18, 0.58),
-                    rgba(5, 10, 18, 0.68)
-                ),
-
-                url("/static/images/alwarid-background.png");
-
-            background-size: cover;
-
-            background-position: center top;
-
-            background-attachment: fixed;
-
-            background-repeat: no-repeat;
-        }
-
-
-        .page-container {
-
-            width: 100%;
-
-            max-width: 1400px;
-
-            margin: auto;
-
-            padding: 25px 20px 70px;
-        }
-
-
-        /* =====================================================
-           TOP NAVIGATION
-        ===================================================== */
-
-        .top-navbar {
-
-            max-width: 1200px;
-
-            margin: 0 auto 30px auto;
-
-            display: flex;
-
-            justify-content: flex-start;
-
-            padding: 0 10px;
-        }
-
-
-        .filter-container {
-
-            background: rgba(255,255,255,0.92);
-
-            padding: 6px 12px;
-
-            border-radius: 30px;
-
-            border: 1px solid rgba(189,28,28,0.15);
-
-            box-shadow:
-                0 8px 25px rgba(0,0,0,0.18);
-
-            display: flex;
-
-            gap: 10px;
-
-            backdrop-filter: blur(15px);
-
-            -webkit-backdrop-filter: blur(15px);
-        }
-
-
-        .filter-btn {
-
-            background: transparent;
-
-            border: none;
-
-            padding: 8px 18px;
-
-            font-family: 'Tajawal', sans-serif;
-
-            font-size: 14px;
-
-            font-weight: bold;
-
-            color: #475569;
-
-            cursor: pointer;
-
-            border-radius: 20px;
-
-            transition: all 0.3s ease;
-        }
-
-
-        .filter-btn.active,
-        .filter-btn:hover {
-
-            background: #bd1c1c;
-
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #111111, #252525, #111111);
             color: white;
-
-            box-shadow:
-                0 4px 12px rgba(189,28,28,0.35);
-
-            transform: translateY(-1px);
         }
 
-
-        /* =====================================================
-           HEADER
-        ===================================================== */
-
+        /* HEADER */
         header {
-
             text-align: center;
-
-            margin-bottom: 55px;
-
-            padding: 35px 20px;
-
-            background: rgba(255,255,255,0.10);
-
-            border: 1px solid rgba(255,255,255,0.20);
-
-            border-radius: 30px;
-
-            backdrop-filter: blur(9px);
-
-            -webkit-backdrop-filter: blur(9px);
-
-            box-shadow:
-                0 15px 40px rgba(0,0,0,0.18);
+            padding: 45px 20px;
+            background: #080808;
+            border-bottom: 3px solid #e63946;
         }
 
-
-        .logo-text {
-
-            font-family: 'Reem Kufi', sans-serif;
-
-            font-size: clamp(42px, 6vw, 72px);
-
+        header h1 {
+            font-size: 48px;
+            letter-spacing: 4px;
             color: white;
-
-            text-shadow:
-
-                0 3px 10px rgba(0,0,0,0.65),
-
-                0 0 25px rgba(189,28,28,0.40);
-
-            letter-spacing: 2px;
-
-            margin-bottom: 5px;
-
-            font-weight: 700;
         }
 
-
-        .sub-logo {
-
-            font-family: 'Orbitron', sans-serif;
-
-            font-size: 16px;
-
-            color: #ff3b3b;
-
-            text-transform: uppercase;
-
-            letter-spacing: 6px;
-
-            margin-bottom: 18px;
-
-            font-weight: bold;
-
-            text-shadow:
-                0 2px 8px rgba(0,0,0,0.6);
-        }
-
-
-        .welcome-msg {
-
-            color: white;
-
+        header p {
+            margin-top: 10px;
+            color: #cccccc;
             font-size: 18px;
-
-            max-width: 700px;
-
-            margin: 0 auto;
-
-            line-height: 1.9;
-
-            font-weight: 700;
-
-            text-shadow:
-                0 2px 6px rgba(0,0,0,0.65);
         }
 
-
-        /* =====================================================
-           MAIN CONTACT
-        ===================================================== */
-
-        .main-contact {
-
-            margin-top: 22px;
-
-            display: inline-flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            gap: 12px;
-
-            padding: 11px 22px;
-
-            border-radius: 30px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    rgba(189,28,28,0.95),
-                    rgba(120,10,10,0.95)
-                );
-
-            color: white;
-
-            font-size: 16px;
-
-            font-weight: 700;
-
-            direction: ltr;
-
-            box-shadow:
-                0 6px 20px rgba(0,0,0,0.30);
-        }
-
-
-        .main-contact span {
-
-            opacity: 0.6;
-        }
-
-
-        .main-contact a {
-
-            color: white;
-
-            text-decoration: none;
-        }
-
-
-        /* =====================================================
-           SECTION TITLE
-        ===================================================== */
-
-        .section-title {
-
+        /* CONTACT */
+        .contact {
             text-align: center;
-
-            font-size: 30px;
-
-            color: white;
-
-            margin: 55px 0 30px 0;
-
-            font-family: 'Reem Kufi', sans-serif;
-
-            text-shadow:
-                0 3px 8px rgba(0,0,0,0.75);
+            padding: 25px;
         }
 
-
-        .section-title::after {
-
-            content: '';
-
-            display: block;
-
-            width: 70px;
-
-            height: 4px;
-
-            background: #bd1c1c;
-
-            margin: 10px auto 0;
-
-            border-radius: 2px;
-
-            box-shadow:
-                0 0 12px rgba(189,28,28,0.8);
-        }
-
-
-        /* =====================================================
-           CARS GRID
-        ===================================================== */
-
-        .cars-grid {
-
-            display: flex;
-
-            flex-wrap: wrap;
-
-            gap: 40px;
-
-            justify-content: center;
-
-            max-width: 1200px;
-
-            margin: 0 auto 50px;
-        }
-
-
-        /* =====================================================
-           CAR CARD
-        ===================================================== */
-
-        .car-card {
-
-            background: rgba(255,255,255,0.89);
-
-            border-radius: 20px;
-
-            overflow: hidden;
-
-            width: 360px;
-
-            border:
-                1px solid rgba(255,255,255,0.85);
-
-            box-shadow:
-                0 15px 40px rgba(0,0,0,0.25);
-
-            backdrop-filter: blur(15px);
-
-            -webkit-backdrop-filter: blur(15px);
-
-            transition:
-                transform 0.4s ease,
-                box-shadow 0.4s ease,
-                border-color 0.4s ease;
-
-            position: relative;
-        }
-
-
-        .car-card:hover {
-
-            transform: translateY(-10px);
-
-            border-color:
-                rgba(189,28,28,0.55);
-
-            box-shadow:
-
-                0 20px 45px rgba(0,0,0,0.32),
-
-                0 0 25px rgba(189,28,28,0.15);
-        }
-
-
-        /* =====================================================
-           BADGES
-        ===================================================== */
-
-        .badge {
-
-            position: absolute;
-
-            top: 15px;
-
-            right: 15px;
-
-            padding: 7px 15px;
-
-            border-radius: 30px;
-
-            font-size: 12px;
-
+        .phone {
+            font-size: 23px;
             font-weight: bold;
-
-            z-index: 2;
-
-            box-shadow:
-                0 5px 15px rgba(0,0,0,0.20);
+            margin-bottom: 15px;
         }
 
-
-        .badge-popular {
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #ff9f43,
-                    #ff5252
-                );
-
+        .whatsapp {
+            display: inline-block;
+            background: #25D366;
             color: white;
+            padding: 14px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
         }
 
-
-        .badge-fire {
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #ff3333,
-                    #990000
-                );
-
-            color: white;
+        .whatsapp:hover {
+            background: #1ebe5d;
         }
 
+        /* CARS */
+        .cars {
+            width: 92%;
+            max-width: 1400px;
+            margin: 20px auto 60px;
+        }
 
-        /* =====================================================
-           CAR IMAGE
-        ===================================================== */
+        .car-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+        }
 
-        .car-img-container {
-
-            width: 100%;
-
-            height: 230px;
-
+        .car {
+            background: #1b1b1b;
+            border-radius: 12px;
             overflow: hidden;
-
-            position: relative;
-
-            background: #e2e8f0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+            transition: 0.3s;
         }
 
+        .car:hover {
+            transform: translateY(-6px);
+        }
 
-        .car-img {
-
+        .car img {
             width: 100%;
-
-            height: 100%;
-
+            height: 220px;
             object-fit: cover;
-
-            transition:
-                transform 0.5s ease;
+            display: block;
         }
-
-
-        .car-card:hover .car-img {
-
-            transform: scale(1.06);
-        }
-
-
-        /* =====================================================
-           CAR INFORMATION
-        ===================================================== */
 
         .car-info {
-
-            padding: 25px;
-        }
-
-
-        .car-title {
-
-            font-size: 22px;
-
-            margin: 0 0 10px;
-
-            color: #0f172a;
-
-            font-weight: 700;
-        }
-
-
-        .car-price {
-
-            font-size: 20px;
-
-            color: #bd1c1c;
-
-            font-weight: bold;
-
-            margin-bottom: 18px;
-
-            display: inline-block;
-        }
-
-
-        /* =====================================================
-           SPECS
-        ===================================================== */
-
-        .car-specs {
-
-            list-style: none;
-
-            margin: 0 0 22px;
-
-            border-top:
-                1px solid rgba(0,0,0,0.08);
-
-            padding: 14px 0 0;
-        }
-
-
-        .car-specs li {
-
-            font-size: 14px;
-
-            color: #475569;
-
-            margin-bottom: 9px;
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 8px;
-
-            font-weight: 500;
-        }
-
-
-        .spec-icon {
-
-            color: #bd1c1c;
-
-            font-size: 14px;
-        }
-
-
-        /* =====================================================
-           CONTACT BUTTONS
-        ===================================================== */
-
-        .contact-buttons {
-
-            display: flex;
-
-            gap: 10px;
-
-            width: 100%;
-        }
-
-
-        .contact-buttons .btn-inquire {
-
-            flex: 1;
-
-            color: white;
-
-            padding: 13px 10px;
-
-            text-decoration: none;
-
-            font-size: 15px;
-
-            font-weight: bold;
-
-            border-radius: 12px;
-
-            display: flex;
-
-            justify-content: center;
-
-            align-items: center;
-
-            gap: 6px;
-
-            transition: all 0.3s ease;
-        }
-
-
-        /* =====================================================
-           WHATSAPP
-        ===================================================== */
-
-        .whatsapp-btn {
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #25D366,
-                    #128C7E
-                );
-
-            box-shadow:
-                0 5px 15px rgba(37,211,102,0.25);
-
-            animation:
-                pulse-whatsapp 2s infinite;
-        }
-
-
-        /* =====================================================
-           PHONE
-        ===================================================== */
-
-        .phone-btn {
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #bd1c1c,
-                    #7f0d0d
-                );
-
-            box-shadow:
-                0 5px 15px rgba(189,28,28,0.25);
-        }
-
-
-        .contact-buttons .btn-inquire:hover {
-
-            transform: translateY(-2px);
-
-            filter: brightness(1.1);
-        }
-
-
-        /* =====================================================
-           WHATSAPP ANIMATION
-        ===================================================== */
-
-        @keyframes pulse-whatsapp {
-
-            0% {
-
-                box-shadow:
-                    0 0 0 0
-                    rgba(37,211,102,0.40);
-            }
-
-            70% {
-
-                box-shadow:
-                    0 0 0 10px
-                    rgba(37,211,102,0);
-            }
-
-            100% {
-
-                box-shadow:
-                    0 0 0 0
-                    rgba(37,211,102,0);
-            }
-        }
-
-
-        /* =====================================================
-           FOOTER
-        ===================================================== */
-
-        footer {
-
+            padding: 18px;
             text-align: center;
-
-            margin-top: 60px;
-
-            padding: 25px;
-
-            color: white;
-
-            background:
-                rgba(0,0,0,0.35);
-
-            border-radius: 20px;
-
-            backdrop-filter: blur(10px);
-
-            -webkit-backdrop-filter: blur(10px);
         }
 
+        .car-info h2 {
+            margin-bottom: 8px;
+        }
 
-        footer .footer-logo {
-
-            font-family: 'Orbitron', sans-serif;
-
-            color: #ff3333;
-
-            font-size: 18px;
-
+        .price {
+            color: #ff4757;
+            font-size: 20px;
             font-weight: bold;
-
-            letter-spacing: 3px;
-
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
 
-
-        footer p {
-
-            margin: 5px 0;
-
-            font-size: 14px;
-        }
-
-
-        footer a {
-
+        .ask {
+            display: inline-block;
+            background: #e63946;
             color: white;
-
+            padding: 10px 16px;
+            border-radius: 6px;
             text-decoration: none;
-
-            font-weight: bold;
         }
 
+        .ask:hover {
+            background: #c92835;
+        }
 
-        /* =====================================================
-           MOBILE
-        ===================================================== */
+        /* FOOTER */
+        footer {
+            background: #080808;
+            text-align: center;
+            padding: 25px;
+            color: #aaaaaa;
+        }
 
-        @media (max-width: 768px) {
-
-            body {
-
-                background-attachment: scroll;
-
-                background-position: center top;
-            }
-
-
-            .page-container {
-
-                padding:
-                    15px
-                    12px
-                    40px;
-            }
-
-
-            .top-navbar {
-
-                justify-content: center;
-
-                margin-bottom: 20px;
-            }
-
-
-            .filter-container {
-
-                width: 100%;
-
-                justify-content: center;
-
-                gap: 3px;
-
-                padding: 5px;
-            }
-
-
-            .filter-btn {
-
-                padding: 8px 10px;
-
-                font-size: 12px;
-            }
-
-
-            header {
-
-                padding: 25px 15px;
-
-                margin-bottom: 35px;
-            }
-
-
-            .logo-text {
-
-                font-size: 43px;
-            }
-
-
-            .sub-logo {
-
-                font-size: 12px;
-
-                letter-spacing: 3px;
-            }
-
-
-            .welcome-msg {
-
-                font-size: 15px;
-
-                line-height: 1.8;
-            }
-
-
-            .main-contact {
-
-                font-size: 14px;
-
-                padding: 10px 15px;
-
-                gap: 8px;
-            }
-
-
-            .section-title {
-
-                font-size: 24px;
-
-                margin-top: 40px;
-            }
-
-
-            .cars-grid {
-
-                gap: 25px;
-            }
-
-
-            .car-card {
-
-                width: 100%;
-
-                max-width: 400px;
-            }
-
-
-            .car-img-container {
-
-                height: 220px;
+        /* TABLET */
+        @media (max-width: 1000px) {
+            .car-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
 
-
-        /* =====================================================
-           VERY SMALL PHONES
-        ===================================================== */
-
-        @media (max-width: 400px) {
-
-            .contact-buttons {
-
-                flex-direction: column;
+        /* PHONE */
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 30px;
             }
 
-
-            .filter-btn {
-
-                padding:
-                    8px 7px;
-
-                font-size: 11px;
-            }
-
-
-            .main-contact {
-
-                flex-direction: column;
-
-                border-radius: 18px;
-            }
-
-
-            .main-contact span {
-
-                display: none;
+            .car-grid {
+                grid-template-columns: 1fr;
             }
         }
-
     </style>
-
 </head>
-
 
 <body>
 
+<header>
+    <h1>ALWARID-MOTORS</h1>
+    <p>Your Trusted Used Car Showroom</p>
+</header>
 
-<div class="page-container">
+<div class="contact">
 
-
-    <!-- =====================================================
-         TOP FILTER
-    ===================================================== -->
-
-    <nav class="top-navbar">
-
-        <div class="filter-container">
-
-            <button
-                class="filter-btn active"
-                type="button"
-            >
-                الكل 📋
-            </button>
-
-
-            <button
-                class="filter-btn"
-                type="button"
-            >
-                الأكثر شعبية ⭐
-            </button>
-
-
-            <button
-                class="filter-btn"
-                type="button"
-            >
-                أسعار الحرق ⚡
-            </button>
-
-        </div>
-
-    </nav>
-
-
-
-    <!-- =====================================================
-         HEADER
-    ===================================================== -->
-
-    <header>
-
-        <div class="logo-text">
-            الـوَارد
-        </div>
-
-
-        <div class="sub-logo">
-            AL-WARID MOTORS
-        </div>
-
-
-        <p class="welcome-msg">
-
-            أهلاً وسهلاً بك في معرض الوارد لتجارة السيارات المستعملة.
-            نقدّم لك أفخم وأجود السيارات المستعملة بأفضل الأسعار
-            وبحالة الوكالة.
-
-        </p>
-
-
-        <!-- MAIN PHONE + WHATSAPP -->
-
-        <div class="main-contact">
-
-            <a
-                href="tel:+971562400397"
-            >
-                📞 056 240 0397
-            </a>
-
-            <span>|</span>
-
-            <a
-                href="https://wa.me/971562400397"
-                target="_blank"
-            >
-                💬 واتساب متوفر
-            </a>
-
-        </div>
-
-    </header>
-
-
-
-    <!-- =====================================================
-         POPULAR SECTION
-    ===================================================== -->
-
-    <div class="section-title">
-
-        🔥 الأكثر شعبية في المعرض
-
+    <div class="phone">
+        📞 056-24-00-397
     </div>
 
-
-    <div class="cars-grid">
-
-
-        {% for car in cars %}
-
-
-        <div class="car-card">
-
-
-            <span class="badge badge-popular">
-
-                الأكثر شعبية ⭐
-
-            </span>
-
-
-            <!-- CAR IMAGE -->
-
-            <div class="car-img-container">
-
-                <img
-                    src="{{ car.image }}"
-                    alt="{{ car.title }}"
-                    class="car-img"
-                >
-
-            </div>
-
-
-            <!-- CAR INFO -->
-
-            <div class="car-info">
-
-
-                <h2 class="car-title">
-
-                    {{ car.title }}
-
-                </h2>
-
-
-                <div class="car-price">
-
-                    {{ car.price }}
-
-                </div>
-
-
-                <!-- SPECS -->
-
-                <ul class="car-specs">
-
-                    {% for spec in car.specs %}
-
-                    <li>
-
-                        <span class="spec-icon">
-                            ⚪
-                        </span>
-
-                        {{ spec }}
-
-                    </li>
-
-                    {% endfor %}
-
-                </ul>
-
-
-                <!-- PHONE + WHATSAPP -->
-
-                <div class="contact-buttons">
-
-
-                    <a
-                        href="https://wa.me/971562400397"
-                        class="btn-inquire whatsapp-btn"
-                        target="_blank"
-                    >
-                        💬 واتساب
-                    </a>
-
-
-                    <a
-                        href="tel:+971562400397"
-                        class="btn-inquire phone-btn"
-                    >
-                        📞 اتصال
-                    </a>
-
-
-                </div>
-
-
-            </div>
-
-        </div>
-
-
-        {% endfor %}
-
-
-    </div>
-
-
-
-    <!-- =====================================================
-         HOT DEALS
-    ===================================================== -->
-
-    <div class="section-title">
-
-        ⚡ عروض أسعار الحرق
-
-        <span style="font-size:18px;">
-            (لفترة محدودة)
-        </span>
-
-    </div>
-
-
-
-    <div class="cars-grid">
-
-
-        <!-- HOT DEAL CARD -->
-
-        <div class="car-card">
-
-
-            <span class="badge badge-fire">
-
-                سعر حرق 💥
-
-            </span>
-
-
-            <!-- DEAL IMAGE -->
-
-            <div class="car-img-container">
-
-                <img
-                    src="https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=1000&q=80"
-                    alt="بي إم دبليو الفئة الخامسة"
-                    class="car-img"
-                >
-
-            </div>
-
-
-            <!-- DEAL INFO -->
-
-            <div class="car-info">
-
-
-                <h2 class="car-title">
-
-                    بي إم دبليو الفئة الخامسة
-
-                </h2>
-
-
-                <div class="car-price">
-
-                    130,000 درهم
-
-                    <span
-                        style="
-                            font-size:13px;
-                            color:#64748b;
-                            text-decoration:line-through;
-                        "
-                    >
-                        (160,000)
-                    </span>
-
-                </div>
-
-
-                <ul class="car-specs">
-
-                    <li>
-
-                        <span class="spec-icon">
-                            ⚪
-                        </span>
-
-                        الممشى: 30,000 كم
-
-                    </li>
-
-
-                    <li>
-
-                        <span class="spec-icon">
-                            ⚪
-                        </span>
-
-                        الموديل: 2021
-
-                    </li>
-
-
-                    <li>
-
-                        <span class="spec-icon">
-                            ⚪
-                        </span>
-
-                        صيانة وكالة بالكامل وعرض خاص حرق
-
-                    </li>
-
-                </ul>
-
-
-                <!-- DEAL CONTACT -->
-
-                <div class="contact-buttons">
-
-
-                    <a
-                        href="https://wa.me/971562400397"
-                        class="btn-inquire whatsapp-btn"
-                        target="_blank"
-                    >
-                        💬 واتساب
-                    </a>
-
-
-                    <a
-                        href="tel:+971562400397"
-                        class="btn-inquire phone-btn"
-                    >
-                        📞 اتصال
-                    </a>
-
-
-                </div>
-
-
-            </div>
-
-        </div>
-
-
-    </div>
-
-
-
-    <!-- =====================================================
-         FOOTER
-    ===================================================== -->
-
-    <footer>
-
-        <div class="footer-logo">
-            AL-WARID MOTORS
-        </div>
-
-
-        <p>
-            معرض الوارد لتجارة السيارات المستعملة
-        </p>
-
-
-        <p>
-
-            📞
-            <a href="tel:+971562400397">
-                056 240 0397
-            </a>
-
-            &nbsp;&nbsp; | &nbsp;&nbsp;
-
-            💬
-            <a
-                href="https://wa.me/971562400397"
-                target="_blank"
-            >
-                WhatsApp
-            </a>
-
-        </p>
-
-
-        <p style="opacity:0.65; margin-top:15px;">
-            جميع الحقوق محفوظة © AL-WARID MOTORS
-        </p>
-
-    </footer>
-
+    <a class="whatsapp"
+       href="https://wa.me/971562400397"
+       target="_blank">
+        💬 WhatsApp Us
+    </a>
 
 </div>
 
+<section class="cars">
 
+    <div class="car-grid">
 
-<!-- =====================================================
-     FILTER BUTTON SCRIPT
-===================================================== -->
+        <div class="car">
+            <img src="/cars/car1.jpg" alt="Car 1">
+            <div class="car-info">
+                <h2>Car 1</h2>
+                <div class="price">AED 55,000</div>
+                <a class="ask" href="https://wa.me/971562400397" target="_blank">
+                    Ask About This Car
+                </a>
+            </div>
+        </div>
 
-<script>
+        <div class="car">
+            <img src="/cars/car2.jpg" alt="Car 2">
+            <div class="car-info">
+                <h2>Car 2</h2>
+                <div class="price">AED 65,000</div>
+                <a class="ask" href="https://wa.me/971562400397" target="_blank">
+                    Ask About This Car
+                </a>
+            </div>
+        </div>
 
-    const filterButtons =
-        document.querySelectorAll('.filter-btn');
+        <div class="car">
+            <img src="/cars/car3.jpg" alt="Car 3">
+            <div class="car-info">
+                <h2>Car 3</h2>
+                <div class="price">AED 75,000</div>
+                <a class="ask" href="https://wa.me/971562400397" target="_blank">
+                    Ask About This Car
+                </a>
+            </div>
+        </div>
 
+        <div class="car">
+            <img src="/cars/car4.jpg" alt="Car 4">
+            <div class="car-info">
+                <h2>Car 4</h2>
+                <div class="price">AED 85,000</div>
+                <a class="ask" href="https://wa.me/971562400397" target="_blank">
+                    Ask About This Car
+                </a>
+            </div>
+        </div>
 
-    filterButtons.forEach(button => {
+        <div class="car">
+            <img src="/cars/car5.jpg" alt="Car 5">
+            <div class="car-info">
+                <h2>Car 5</h2>
+                <div class="price">AED 90,000</div>
+                <a class="ask" href="https://wa.me/971562400397" target="_blank">
+                    Ask About This Car
+                </a>
+            </div>
+        </div>
 
-        button.addEventListener('click', function () {
+        <div class="car">
+            <img src="/cars/car6.jpg" alt="Car 6">
+            <div class="car-info">
+                <h2>Car 6</h2>
+                <div class="price">AED 95,000</div>
+                <a class="ask" href="https://wa.me/971562400397" target="_blank">
+                    Ask About This Car
+                </a>
+            </div>
+        </div>
 
-            filterButtons.forEach(btn => {
+        <div class="car">
+            <img src="/cars/car7.jpg" alt="Car 7">
+            <div class="car-info">
+                <h2>Car 7</h2>
+                <div class="price">AED 100,000</div>
+                <a class="ask" href="https://wa.me/971562400397" target="_blank">
+                    Ask About This Car
+                </a>
+            </div>
+        </div>
 
-                btn.classList.remove('active');
+        <div class="car">
+            <img src="/cars/car8.jpg" alt="Car 8">
+            <div class="car-info">
+                <h2>Car 8</h2>
+                <div class="price">AED 110,000</div>
+                <a class="ask" href="https://wa.me/971562400397" target="_blank">
+                    Ask About This Car
+                </a>
+            </div>
+        </div>
 
-            });
+        <div class="car">
+            <img src="/cars/car9.jpg" alt="Car 9">
+            <div class="car-info">
+                <h2>Car 9</h2>
+                <div class="price">AED 120,000</div>
+                <a class="ask" href="https://wa.me/971562400397" target="_blank">
+                    Ask About This Car
+                </a>
+            </div>
+        </div>
 
+        <div class="car">
+            <img src="/cars/car10.jpg" alt="Car 10">
+            <div class="car-info">
+                <h2>Car 10</h2>
+                <div class="price">AED 130,000</div>
+                <a class="ask" href="https://wa.me/971562400397" target="_blank">
+                    Ask About This Car
+                </a>
+            </div>
+        </div>
 
-            this.classList.add('active');
+        <div class="car">
+            <img src="/cars/car11.jpg" alt="Car 11">
+            <div class="car-info">
+                <h2>Car 11</h2>
+                <div class="price">AED 140,000</div>
+                <a class="ask" href="https://wa.me/971562400397" target="_blank">
+                    Ask About This Car
+                </a>
+            </div>
+        </div>
 
-        });
+        <div class="car">
+            <img src="/cars/car12.jpg" alt="Car 12">
+            <div class="car-info">
+                <h2>Car 12</h2>
+                <div class="price">AED 150,000</div>
+                <a class="ask" href="https://wa.me/971562400397" target="_blank">
+                    Ask About This Car
+                </a>
+            </div>
+        </div>
 
-    });
+    </div>
 
-</script>
+</section>
 
+<footer>
+    © 2026 ALWARID-MOTORS
+    <br>
+    📞 056-24-00-397
+</footer>
 
 </body>
-
 </html>
-alwarid-background.png 
+"""
+
+
+@app.route("/")
+def home():
+    return render_template_string(HTML)
+
+
+@app.route("/cars/<path:filename>")
+def cars(filename):
+    return send_from_directory("cars", filename)
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
+```
