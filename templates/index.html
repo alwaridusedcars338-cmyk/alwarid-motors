@@ -1,158 +1,1152 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>معرض الوارد لتجارة السيارات المستعملة</title>
-    <link rel="preconnect" href="https://googleapis.com">
-    <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com/css2?family=Orbitron:wght@700&family=Reem+Kufi:wght@700&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+
+    <title>معرض سيارات الشارقة | سيارات للبيع</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Tajawal:wght@400;500;700;800&display=swap"
+          rel="stylesheet">
+
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { 
-            /* خلفية بيضاء ثلجية مريحة جداً للعين ومدمجة مع صورة بانورامية لأجيال وتطور لاندكروزر بالكامل */
-            background-image: linear-gradient(rgba(255, 255, 255, 0.92), rgba(244, 246, 249, 0.96)), url('https://unsplash.com'); 
-            background-size: cover; background-position: center; background-attachment: fixed;
-            font-family: 'Tajawal', sans-serif; color: #1e293b; padding: 40px 20px;
-            overflow-x: hidden;
-        }
-        
-        /* شريط الترتيب والتصنيف المطور في أعلى اليمين بالتوالي */
-        .top-navbar {
-            max-width: 1200px; margin: 0 auto 20px auto; display: flex; justify-content: flex-start; padding: 0 10px;
-        }
-        .filter-container {
-            background: rgba(255, 255, 255, 0.9); padding: 6px 12px; border-radius: 30px;
-            border: 1px solid rgba(189, 28, 28, 0.15); box-shadow: 0 4px 15px rgba(0,0,0,0.04);
-            display: flex; gap: 10px; backdrop-filter: blur(10px);
-        }
-        .filter-btn {
-            background: transparent; border: none; padding: 8px 18px; font-family: 'Tajawal', sans-serif;
-            font-size: 14px; font-weight: bold; color: #475569; cursor: pointer; border-radius: 20px; transition: all 0.3s;
-        }
-        .filter-btn.active, .filter-btn:hover {
-            background: #bd1c1c; color: #fff; box-shadow: 0 2px 8px rgba(189, 28, 28, 0.3);
+
+        /* =========================
+           RESET
+        ========================= */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
-        header { text-align: center; margin-bottom: 50px; }
-        .logo-text { 
-            font-family: 'Reem Kufi', sans-serif; font-size: 60px; color: #bd1c1c; 
-            text-shadow: 0 2px 10px rgba(189, 28, 28, 0.15); letter-spacing: 2px; margin-bottom: 5px; font-weight: 700;
+        html {
+            scroll-behavior: smooth;
         }
-        .sub-logo { font-family: 'Orbitron', sans-serif; font-size: 15px; color: #bd1c1c; text-transform: uppercase; letter-spacing: 5px; margin-bottom: 15px; font-weight: bold; }
-        .welcome-msg { color: #475569; font-size: 18px; max-width: 650px; margin: 0 auto; line-height: 1.8; font-weight: bold; }
-        
-        .section-title { 
-            text-align: center; font-size: 30px; color: #bd1c1c; margin: 50px 0 25px 0; font-family: 'Reem Kufi', sans-serif;
-        }
-        .section-title::after {
-            content: ''; display: block; width: 60px; height: 4px; background: #bd1c1c; margin: 8px auto 0 auto; border-radius: 2px;
-        }
-        
-        /* بطاقات عرض السيارات الزجاجية البيضاء الفاخرة المريحة للعين */
-        .cars-grid { display: flex; flex-wrap: wrap; gap: 40px; justify-content: center; max-width: 1200px; margin: 0 auto 40px auto; }
-        .car-card { 
-            background: rgba(255, 255, 255, 0.88); border-radius: 20px; overflow: hidden; width: 360px; 
-            border: 1px solid rgba(255, 255, 255, 0.8); box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
-            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); position: relative; 
-        }
-        .car-card:hover { 
-            transform: translateY(-8px); border-color: rgba(189, 28, 28, 0.3); box-shadow: 0 15px 35px rgba(189, 28, 28, 0.1);
-        }
-        
-        .badge { position: absolute; top: 15px; right: 15px; padding: 6px 15px; border-radius: 30px; font-size: 12px; font-weight: bold; z-index: 2; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .badge-popular { background: linear-gradient(135deg, #ff9f43, #ff5252); color: #fff; }
-        .badge-fire { background: linear-gradient(135deg, #ff3333, #990000); color: #fff; }
 
-        .car-img-container { width: 100%; height: 230px; overflow: hidden; position: relative; background: #e2e8f0; }
-        .car-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
-        .car-card:hover .car-img { transform: scale(1.06); }
-        
-        .car-info { padding: 25px; }
-        .car-title { font-size: 22px; margin-bottom: 10px; color: #0f172a; font-weight: 700; }
-        .car-price { font-size: 20px; color: #bd1c1c; font-weight: bold; margin-bottom: 18px; display: inline-block; }
-        
-        .car-specs { list-style: none; margin-bottom: 22px; border-top: 1px solid rgba(0,0,0,0.06); padding-top: 12px; }
-        .car-specs li { font-size: 14px; color: #475569; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; font-weight: 500; }
-        .spec-icon { color: #bd1c1c; font-size: 14px; }
-        
-        /* زر تواصل مباشر يفتح تطبيق الواتساب بنجاح وبدون أي حظر */
-        .btn-inquire { 
-            background: linear-gradient(135deg, #25D366, #128C7E); color: white; padding: 13px; text-decoration: none; font-size: 16px; font-weight: bold; border-radius: 12px; display: flex; justify-content: center; align-items: center; gap: 8px; transition: all 0.3s; 
-            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.2); animation: pulse-whatsapp 2s infinite;
+        body {
+            font-family: "Tajawal", Arial, sans-serif;
+            color: #ffffff;
+            background:
+                linear-gradient(
+                    rgba(7, 10, 15, 0.90),
+                    rgba(7, 10, 15, 0.96)
+                ),
+                url("https://images.unsplash.com/photo-1504215680853-026ed2a45def?auto=format&fit=crop&w=2000&q=85");
+
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+
+            min-height: 100vh;
         }
-        .btn-inquire:hover { filter: brightness(1.1); transform: translateY(-1px); }
-        
-        @keyframes pulse-whatsapp {
-            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+
+        a {
+            text-decoration: none;
+            color: inherit;
         }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        .container {
+            width: min(1200px, 92%);
+            margin: auto;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+
+            background: rgba(8, 8, 12, 0.94);
+            backdrop-filter: blur(12px);
+
+            border-bottom: 1px solid rgba(255,255,255,0.12);
+        }
+
+        .navbar {
+            min-height: 75px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+        .logo {
+            font-family: "Orbitron", sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .logo span {
+            color: #e53935;
+        }
+
+        nav {
+            display: flex;
+            gap: 24px;
+        }
+
+        nav a {
+            color: #ddd;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: #e53935;
+        }
+
+
+        /* =========================
+           HERO / PROFILE
+        ========================= */
+
+        .hero {
+            min-height: 580px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .profile {
+            max-width: 850px;
+        }
+
+        .profile-badge {
+            display: inline-block;
+
+            padding: 8px 16px;
+            margin-bottom: 20px;
+
+            border-radius: 30px;
+
+            background: rgba(229,57,53,0.15);
+            border: 1px solid rgba(229,57,53,0.4);
+
+            color: #ff7773;
+            font-weight: 700;
+        }
+
+        .profile h1 {
+            font-size: clamp(40px, 7vw, 76px);
+            line-height: 1.1;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        .profile h1 span {
+            color: #e53935;
+        }
+
+        .profile-text {
+            color: #ddd;
+            font-size: 20px;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .location {
+            margin-bottom: 30px;
+            color: #ccc;
+            font-size: 18px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        .btn {
+            display: inline-block;
+
+            padding: 14px 26px;
+
+            border-radius: 10px;
+
+            font-family: inherit;
+            font-weight: 700;
+
+            transition: 0.3s;
+        }
+
+        .btn-primary {
+            background: #e53935;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: #c62828;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.16);
+        }
+
+
+        /* =========================
+           SECTIONS
+        ========================= */
+
+        section {
+            padding: 75px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-title h2 {
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+
+        .section-title p {
+            color: #999;
+        }
+
+
+        /* =========================
+           SEARCH
+        ========================= */
+
+        .search-box {
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+
+        .search-box input {
+            width: 100%;
+
+            padding: 16px 20px;
+
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.15);
+
+            background: rgba(255,255,255,0.08);
+            color: white;
+
+            font-family: inherit;
+            font-size: 16px;
+
+            outline: none;
+        }
+
+        .search-box input:focus {
+            border-color: #e53935;
+        }
+
+
+        /* =========================
+           CAR GRID
+        ========================= */
+
+        .cars-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(300px, 1fr));
+
+            gap: 25px;
+        }
+
+
+        /* =========================
+           CAR CARD
+        ========================= */
+
+        .car-card {
+            background: rgba(18,18,23,0.96);
+
+            border: 1px solid rgba(255,255,255,0.10);
+
+            border-radius: 18px;
+            overflow: hidden;
+
+            box-shadow: 0 15px 40px rgba(0,0,0,0.30);
+
+            transition: 0.3s;
+        }
+
+        .car-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(229,57,53,0.6);
+        }
+
+        .car-image {
+            height: 235px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .car-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+
+            transition: 0.4s;
+        }
+
+        .car-card:hover .car-image img {
+            transform: scale(1.05);
+        }
+
+        .status {
+            position: absolute;
+
+            top: 15px;
+            right: 15px;
+
+            background: #e53935;
+
+            padding: 7px 12px;
+            border-radius: 8px;
+
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .car-content {
+            padding: 22px;
+        }
+
+        .car-content h3 {
+            font-size: 25px;
+            margin-bottom: 15px;
+        }
+
+        .car-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .info {
+            background: rgba(255,255,255,0.06);
+            padding: 10px;
+            border-radius: 8px;
+
+            color: #ccc;
+            font-size: 14px;
+        }
+
+        .price {
+            font-size: 27px;
+            font-weight: 800;
+            color: #e53935;
+            margin-bottom: 15px;
+        }
+
+        .car-description {
+            color: #aaa;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+
+        /* =========================
+           DAMAGE / CONDITION
+        ========================= */
+
+        .damage-section {
+            margin-top: 20px;
+            padding-top: 18px;
+
+            border-top: 1px solid rgba(255,255,255,0.10);
+        }
+
+        .damage-title {
+            color: #ffaaa7;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .damage-photo {
+            width: 100%;
+            height: 150px;
+
+            object-fit: cover;
+
+            border-radius: 10px;
+
+            border: 1px solid rgba(229,57,53,0.4);
+        }
+
+        .no-damage {
+            color: #7ee2a8;
+            background: rgba(126,226,168,0.08);
+
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+
+        /* =========================
+           ABOUT
+        ========================= */
+
+        .about {
+            background: rgba(255,255,255,0.04);
+        }
+
+        .about-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(250px, 1fr));
+
+            gap: 20px;
+        }
+
+        .about-box {
+            padding: 30px;
+
+            text-align: center;
+
+            background: rgba(255,255,255,0.06);
+
+            border-radius: 15px;
+
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .about-box h3 {
+            margin-bottom: 12px;
+            font-size: 22px;
+        }
+
+        .about-box p {
+            color: #aaa;
+            line-height: 1.8;
+        }
+
+
+        /* =========================
+           CONTACT
+        ========================= */
+
+        .contact {
+            text-align: center;
+        }
+
+        .contact-box {
+            max-width: 750px;
+            margin: auto;
+
+            padding: 45px 25px;
+
+            background: rgba(255,255,255,0.06);
+
+            border-radius: 20px;
+
+            border: 1px solid rgba(255,255,255,0.10);
+        }
+
+        .contact-box h2 {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        .contact-box p {
+            color: #aaa;
+            margin-bottom: 12px;
+            line-height: 1.8;
+        }
+
+        .contact-buttons {
+            margin-top: 25px;
+
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            padding: 30px 0;
+
+            text-align: center;
+
+            color: #777;
+
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                flex-direction: column;
+                padding: 18px 0;
+            }
+
+            nav {
+                gap: 14px;
+                font-size: 14px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero {
+                min-height: 520px;
+            }
+
+            .profile-text {
+                font-size: 16px;
+            }
+
+            section {
+                padding: 55px 0;
+            }
+
+            .car-info {
+                grid-template-columns: 1fr;
+            }
+
+            .car-image {
+                height: 220px;
+            }
+        }
+
     </style>
 </head>
+
+
 <body>
 
-    <!-- أزرار الترتيب مصفوفة بدقة في أعلى اليمين بالتوالي -->
-    <nav class="top-navbar">
-        <div class="filter-container">
-            <button class="filter-btn active">الكل 📋</button>
-            <button class="filter-btn">الأكثر شعبية ⭐</button>
-            <button class="filter-btn">أسعار الحرق ⚡</button>
-        </div>
-    </nav>
 
-    <header>
-        <div class="logo-text">الـوَارد</div>
-        <div class="sub-logo">AL-WARID MOTORS</div>
-        <p class="welcome-msg">أهلاً وسهلاً بك في معرض الوارد لتجارة السيارات المستعملة. نقدّم لك أفخم وأجود السيارات المستعملة بأفضل الأسعار وبحالة الوكالة.</p>
-    </header>
+<!-- =========================
+     HEADER
+========================= -->
 
-    <!-- قسم الأكثر شعبية -->
-    <div class="section-title">🔥 الأكثر شعبية في المعرض</div>
-    <div class="cars-grid">
-        {% for car in cars %}
-        <div class="car-card">
-            <span class="badge badge-popular">الأكثر شعبية ⭐</span>
-            <div class="car-img-container">
-                <img src="{{ car.image }}" alt="{{ car.title }}" class="car-img">
-            </div>
-            <div class="car-info">
-                <h2 class="car-title">{{ car.title }}</h2>
-                <div class="car-price">{{ car.price }}</div>
-                <ul class="car-specs">
-                    {% for spec in car.specs %}
-                    <li><span class="spec-icon">⚪</span> {{ spec }}</li>
-                    {% endfor %}
-                </ul>
-                <a href="https://wa.me{{ car.title }}" class="btn-inquire" target="_blank">استفسر عبر الواتساب 💬</a>
-            </div>
-        </div>
-        {% endfor %}
+<header>
+
+    <div class="container navbar">
+
+        <a href="#home" class="logo">
+            CAR <span>SHARJAH</span>
+        </a>
+
+        <nav>
+            <a href="#home">الرئيسية</a>
+            <a href="#cars">السيارات</a>
+            <a href="#about">من نحن</a>
+            <a href="#contact">تواصل معنا</a>
+        </nav>
+
     </div>
 
-    <!-- قسم عروض أسعار الحرق -->
-    <div class="section-title">⚡ عروض أسعار الحرق (لفترة محدودة)</div>
-    <div class="cars-grid">
-        <div class="car-card">
-            <span class="badge badge-fire">سعر حرق 💥</span>
-            <div class="car-img-container">
-                <img src="https://unsplash.com" alt="سيارة عرض" class="car-img">
-            </div>
-            <div class="car-info">
-                <h2 class="car-title">بي إم دبليو الفئة الخامسة</h2>
-                <div class="car-price">130,000 درهم <span style="font-size:13px; color:#64748b; text-decoration:line-through;">(160,000)</span></div>
-                <ul class="car-specs">
-                    <li><span class="spec-icon">⚪</span> الممشى: 30,000 كم</li>
-                    <li><span class="spec-icon">⚪</span> الموديل: 2021</li>
-                    <li><span class="spec-icon">⚪</span> صيانة وكالة بالكامل وعرض خاص حرق</li>
-                </ul>
-                <a href="https://wa.me" class="btn-inquire" target="_blank">استفسر عن عرض الحرق 💬</a>
-            </div>
+</header>
+
+
+<!-- =========================
+     PROFILE / HOME
+========================= -->
+
+<section class="hero" id="home">
+
+    <div class="profile">
+
+        <div class="profile-badge">
+            🇦🇪 معرض سيارات في الشارقة
         </div>
+
+        <h1>
+            سيارات للبيع
+            <span>في الشارقة</span>
+        </h1>
+
+        <p class="profile-text">
+            نوفر سيارات للبيع في الشارقة،
+            مع عرض الصور والمواصفات والأسعار
+            وحالة السيارة بشكل واضح.
+        </p>
+
+        <div class="location">
+            📍 الشارقة، الإمارات العربية المتحدة
+        </div>
+
+        <div class="hero-buttons">
+
+            <a href="#cars" class="btn btn-primary">
+                🚗 شاهد السيارات
+            </a>
+
+            <a href="tel:+971562400397" class="btn btn-secondary">
+                📞 056 240 0397
+            </a>
+
+        </div>
+
     </div>
+
+</section>
+
+
+<!-- =========================
+     CARS
+========================= -->
+
+<section id="cars">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>🚗 السيارات المتوفرة</h2>
+
+            <p>
+                الأسعار بالدرهم الإماراتي AED
+            </p>
+
+        </div>
+
+
+        <!-- SEARCH -->
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="ابحث عن الماركة أو الموديل أو السنة..."
+                onkeyup="searchCars()"
+            >
+
+        </div>
+
+
+        <div class="cars-grid" id="carsGrid">
+
+
+            <!-- =================================
+                 CAR 1
+                 CHANGE THESE DETAILS
+            ================================== -->
+
+            <article class="car-card">
+
+                <div class="car-image">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&w=1000&q=85"
+                        alt="سيارة للبيع"
+                    >
+
+                    <span class="status">
+                        متوفر
+                    </span>
+
+                </div>
+
+
+                <div class="car-content">
+
+                    <h3>
+                        Toyota Camry 2022
+                    </h3>
+
+                    <div class="car-info">
+
+                        <div class="info">
+                            📅 السنة: 2022
+                        </div>
+
+                        <div class="info">
+                            🛣️ الممشى: 45,000 كم
+                        </div>
+
+                        <div class="info">
+                            ⛽ الوقود: بنزين
+                        </div>
+
+                        <div class="info">
+                            ⚙️ القير: أوتوماتيك
+                        </div>
+
+                        <div class="info">
+                            📍 الموقع: الشارقة
+                        </div>
+
+                        <div class="info">
+                            🇦🇪 الإمارات
+                        </div>
+
+                    </div>
+
+
+                    <div class="price">
+                        AED 82,500
+                    </div>
+
+
+                    <p class="car-description">
+                        سيارة للبيع. يمكن التواصل معنا لمعرفة
+                        المزيد من التفاصيل والصور.
+                    </p>
+
+
+                    <!-- DAMAGE -->
+
+                    <div class="damage-section">
+
+                        <div class="damage-title">
+                            ⚠️ حالة السيارة / الأضرار
+                        </div>
+
+                        <img
+                            class="damage-photo"
+                            src="https://images.unsplash.com/photo-1487754180451-c456f719a1fc?auto=format&fit=crop&w=1000&q=85"
+                            alt="صورة أضرار السيارة"
+                        >
+
+                    </div>
+
+
+                    <br>
+
+                    <a
+                        href="https://wa.me/971562400397?text=السلام%20عليكم،%20أريد%20الاستفسار%20عن%20Toyota%20Camry%202022"
+                        target="_blank"
+                        class="btn btn-primary"
+                    >
+                        💬 اسأل عبر WhatsApp
+                    </a>
+
+                </div>
+
+            </article>
+
+
+            <!-- =================================
+                 CAR 2
+            ================================== -->
+
+            <article class="car-card">
+
+                <div class="car-image">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1000&q=85"
+                        alt="سيارة للبيع"
+                    >
+
+                    <span class="status">
+                        متوفر
+                    </span>
+
+                </div>
+
+
+                <div class="car-content">
+
+                    <h3>
+                        BMW 3 Series 2021
+                    </h3>
+
+                    <div class="car-info">
+
+                        <div class="info">
+                            📅 السنة: 2021
+                        </div>
+
+                        <div class="info">
+                            🛣️ الممشى: 52,000 كم
+                        </div>
+
+                        <div class="info">
+                            ⛽ الوقود: بنزين
+                        </div>
+
+                        <div class="info">
+                            ⚙️ القير: أوتوماتيك
+                        </div>
+
+                        <div class="info">
+                            📍 الموقع: الشارقة
+                        </div>
+
+                        <div class="info">
+                            🇦🇪 الإمارات
+                        </div>
+
+                    </div>
+
+
+                    <div class="price">
+                        AED 106,000
+                    </div>
+
+
+                    <p class="car-description">
+                        سيارة للبيع. تواصل معنا لمعرفة
+                        السعر والتفاصيل والصور الإضافية.
+                    </p>
+
+
+                    <div class="damage-section">
+
+                        <div class="damage-title">
+                            ⚠️ حالة السيارة / الأضرار
+                        </div>
+
+                        <img
+                            class="damage-photo"
+                            src="https://images.unsplash.com/photo-1486006920555-c77dcf18193c?auto=format&fit=crop&w=1000&q=85"
+                            alt="صورة أضرار السيارة"
+                        >
+
+                    </div>
+
+
+                    <br>
+
+                    <a
+                        href="https://wa.me/971562400397?text=السلام%20عليكم،%20أريد%20الاستفسار%20عن%20BMW%203%20Series%202021"
+                        target="_blank"
+                        class="btn btn-primary"
+                    >
+                        💬 اسأل عبر WhatsApp
+                    </a>
+
+                </div>
+
+            </article>
+
+
+            <!-- =================================
+                 CAR 3
+            ================================== -->
+
+            <article class="car-card">
+
+                <div class="car-image">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1000&q=85"
+                        alt="سيارة للبيع"
+                    >
+
+                    <span class="status">
+                        متوفر
+                    </span>
+
+                </div>
+
+
+                <div class="car-content">
+
+                    <h3>
+                        Mercedes-Benz C-Class 2020
+                    </h3>
+
+                    <div class="car-info">
+
+                        <div class="info">
+                            📅 السنة: 2020
+                        </div>
+
+                        <div class="info">
+                            🛣️ الممشى: 60,000 كم
+                        </div>
+
+                        <div class="info">
+                            ⛽ الوقود: بنزين
+                        </div>
+
+                        <div class="info">
+                            ⚙️ القير: أوتوماتيك
+                        </div>
+
+                        <div class="info">
+                            📍 الموقع: الشارقة
+                        </div>
+
+                        <div class="info">
+                            🇦🇪 الإمارات
+                        </div>
+
+                    </div>
+
+
+                    <div class="price">
+                        AED 115,500
+                    </div>
+
+
+                    <p class="car-description">
+                        سيارة للبيع بحالة جيدة.
+                        تواصل معنا للمزيد من المعلومات.
+                    </p>
+
+
+                    <div class="damage-section">
+
+                        <div class="damage-title">
+                            ⚠️ حالة السيارة / الأضرار
+                        </div>
+
+                        <img
+                            class="damage-photo"
+                            src="https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=1000&q=85"
+                            alt="صورة أضرار السيارة"
+                        >
+
+                    </div>
+
+
+                    <br>
+
+                    <a
+                        href="https://wa.me/971562400397?text=السلام%20عليكم،%20أريد%20الاستفسار%20عن%20Mercedes-Benz%20C-Class%202020"
+                        target="_blank"
+                        class="btn btn-primary"
+                    >
+                        💬 اسأل عبر WhatsApp
+                    </a>
+
+                </div>
+
+            </article>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     ABOUT PROFILE
+========================= -->
+
+<section class="about" id="about">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>من نحن</h2>
+
+            <p>
+                معلومات عن معرض السيارات
+            </p>
+
+        </div>
+
+
+        <div class="about-grid">
+
+            <div class="about-box">
+
+                <h3>🚗 سيارات للبيع</h3>
+
+                <p>
+                    سيارات متنوعة متوفرة في الشارقة
+                    بأسعار بالدرهم الإماراتي.
+                </p>
+
+            </div>
+
+
+            <div class="about-box">
+
+                <h3>📸 صور ومعلومات</h3>
+
+                <p>
+                    نعرض صور السيارات والمواصفات
+                    وحالة السيارة والأضرار الموجودة.
+                </p>
+
+            </div>
+
+
+            <div class="about-box">
+
+                <h3>📍 موقعنا</h3>
+
+                <p>
+                    الشارقة، الإمارات العربية المتحدة.
+                </p>
+
+            </div>
+
+
+            <div class="about-box">
+
+                <h3>📞 تواصل معنا</h3>
+
+                <p>
+                    اتصل أو أرسل رسالة WhatsApp
+                    للاستفسار عن أي سيارة.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     CONTACT
+========================= -->
+
+<section class="contact" id="contact">
+
+    <div class="container">
+
+        <div class="contact-box">
+
+            <h2>تواصل معنا</h2>
+
+            <p>
+                📍 الشارقة، الإمارات العربية المتحدة
+            </p>
+
+            <p>
+                📞 056 240 0397
+            </p>
+
+            <p>
+                جميع الأسعار بالدرهم الإماراتي AED.
+            </p>
+
+
+            <div class="contact-buttons">
+
+                <a
+                    href="tel:+971562400397"
+                    class="btn btn-primary"
+                >
+                    📞 اتصل الآن
+                </a>
+
+
+                <a
+                    href="https://wa.me/971562400397"
+                    target="_blank"
+                    class="btn btn-secondary"
+                >
+                    💬 WhatsApp
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <div class="container">
+
+        <p>
+            © 2026 معرض السيارات - الشارقة، الإمارات
+        </p>
+
+    </div>
+
+</footer>
+
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
+<script>
+
+    function searchCars() {
+
+        const input =
+            document
+                .getElementById("searchInput")
+                .value
+                .toLowerCase()
+                .trim();
+
+        const cars =
+            document.querySelectorAll(".car-card");
+
+
+        cars.forEach(function(car) {
+
+            const text =
+                car.innerText.toLowerCase();
+
+
+            if (text.includes(input)) {
+
+                car.style.display = "";
+
+            } else {
+
+                car.style.display = "none";
+
+            }
+
+        });
+
+    }
+
+</script>
+
 
 </body>
 </html>
-
-
