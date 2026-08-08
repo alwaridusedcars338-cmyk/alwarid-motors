@@ -1,156 +1,1354 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>معرض الوارد لتجارة السيارات المستعملة</title>
-    <link rel="preconnect" href="https://googleapis.com">
-    <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com/css2?family=Orbitron:wght@700&family=Reem+Kufi:wght@700&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+
+    <title>AL-WARID MOTORS | معرض الوارد للسيارات</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Reem+Kufi:wght@500;700&family=Tajawal:wght@400;500;700;800&display=swap"
+        rel="stylesheet"
+    >
+
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { 
-            /* خلفية بيضاء ثلجية مريحة جداً للعين ومدمجة مع صورة بانورامية لأجيال وتطور لاندكروزر بالكامل */
-            background-image: linear-gradient(rgba(255, 255, 255, 0.92), rgba(244, 246, 249, 0.96)), url('https://unsplash.com'); 
-            background-size: cover; background-position: center; background-attachment: fixed;
-            font-family: 'Tajawal', sans-serif; color: #1e293b; padding: 40px 20px;
-            overflow-x: hidden;
+
+        /* =====================================================
+           GENERAL
+        ===================================================== */
+
+        * {
+            box-sizing: border-box;
         }
-        
-        /* شريط الترتيب والتصنيف المطور في أعلى اليمين بالتوالي */
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+
+            margin: 0;
+
+            min-height: 100vh;
+
+            font-family: 'Tajawal', sans-serif;
+
+            color: #0f172a;
+
+            /*
+                YOUR UPLOADED BACKGROUND IMAGE
+
+                Put the image here:
+
+                static/images/alwarid-background.png
+            */
+
+            background-image:
+
+                linear-gradient(
+                    rgba(5, 10, 18, 0.58),
+                    rgba(5, 10, 18, 0.68)
+                ),
+
+                url("/static/images/alwarid-background.png");
+
+            background-size: cover;
+
+            background-position: center top;
+
+            background-attachment: fixed;
+
+            background-repeat: no-repeat;
+        }
+
+
+        .page-container {
+
+            width: 100%;
+
+            max-width: 1400px;
+
+            margin: auto;
+
+            padding: 25px 20px 70px;
+        }
+
+
+        /* =====================================================
+           TOP NAVIGATION
+        ===================================================== */
+
         .top-navbar {
-            max-width: 1200px; margin: 0 auto 20px auto; display: flex; justify-content: flex-start; padding: 0 10px;
+
+            max-width: 1200px;
+
+            margin: 0 auto 30px auto;
+
+            display: flex;
+
+            justify-content: flex-start;
+
+            padding: 0 10px;
         }
+
+
         .filter-container {
-            background: rgba(255, 255, 255, 0.9); padding: 6px 12px; border-radius: 30px;
-            border: 1px solid rgba(189, 28, 28, 0.15); box-shadow: 0 4px 15px rgba(0,0,0,0.04);
-            display: flex; gap: 10px; backdrop-filter: blur(10px);
+
+            background: rgba(255,255,255,0.92);
+
+            padding: 6px 12px;
+
+            border-radius: 30px;
+
+            border: 1px solid rgba(189,28,28,0.15);
+
+            box-shadow:
+                0 8px 25px rgba(0,0,0,0.18);
+
+            display: flex;
+
+            gap: 10px;
+
+            backdrop-filter: blur(15px);
+
+            -webkit-backdrop-filter: blur(15px);
         }
+
+
         .filter-btn {
-            background: transparent; border: none; padding: 8px 18px; font-family: 'Tajawal', sans-serif;
-            font-size: 14px; font-weight: bold; color: #475569; cursor: pointer; border-radius: 20px; transition: all 0.3s;
-        }
-        .filter-btn.active, .filter-btn:hover {
-            background: #bd1c1c; color: #fff; box-shadow: 0 2px 8px rgba(189, 28, 28, 0.3);
+
+            background: transparent;
+
+            border: none;
+
+            padding: 8px 18px;
+
+            font-family: 'Tajawal', sans-serif;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            color: #475569;
+
+            cursor: pointer;
+
+            border-radius: 20px;
+
+            transition: all 0.3s ease;
         }
 
-        header { text-align: center; margin-bottom: 50px; }
-        .logo-text { 
-            font-family: 'Reem Kufi', sans-serif; font-size: 60px; color: #bd1c1c; 
-            text-shadow: 0 2px 10px rgba(189, 28, 28, 0.15); letter-spacing: 2px; margin-bottom: 5px; font-weight: 700;
+
+        .filter-btn.active,
+        .filter-btn:hover {
+
+            background: #bd1c1c;
+
+            color: white;
+
+            box-shadow:
+                0 4px 12px rgba(189,28,28,0.35);
+
+            transform: translateY(-1px);
         }
-        .sub-logo { font-family: 'Orbitron', sans-serif; font-size: 15px; color: #bd1c1c; text-transform: uppercase; letter-spacing: 5px; margin-bottom: 15px; font-weight: bold; }
-        .welcome-msg { color: #475569; font-size: 18px; max-width: 650px; margin: 0 auto; line-height: 1.8; font-weight: bold; }
-        
-        .section-title { 
-            text-align: center; font-size: 30px; color: #bd1c1c; margin: 50px 0 25px 0; font-family: 'Reem Kufi', sans-serif;
+
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        header {
+
+            text-align: center;
+
+            margin-bottom: 55px;
+
+            padding: 35px 20px;
+
+            background: rgba(255,255,255,0.10);
+
+            border: 1px solid rgba(255,255,255,0.20);
+
+            border-radius: 30px;
+
+            backdrop-filter: blur(9px);
+
+            -webkit-backdrop-filter: blur(9px);
+
+            box-shadow:
+                0 15px 40px rgba(0,0,0,0.18);
         }
+
+
+        .logo-text {
+
+            font-family: 'Reem Kufi', sans-serif;
+
+            font-size: clamp(42px, 6vw, 72px);
+
+            color: white;
+
+            text-shadow:
+
+                0 3px 10px rgba(0,0,0,0.65),
+
+                0 0 25px rgba(189,28,28,0.40);
+
+            letter-spacing: 2px;
+
+            margin-bottom: 5px;
+
+            font-weight: 700;
+        }
+
+
+        .sub-logo {
+
+            font-family: 'Orbitron', sans-serif;
+
+            font-size: 16px;
+
+            color: #ff3b3b;
+
+            text-transform: uppercase;
+
+            letter-spacing: 6px;
+
+            margin-bottom: 18px;
+
+            font-weight: bold;
+
+            text-shadow:
+                0 2px 8px rgba(0,0,0,0.6);
+        }
+
+
+        .welcome-msg {
+
+            color: white;
+
+            font-size: 18px;
+
+            max-width: 700px;
+
+            margin: 0 auto;
+
+            line-height: 1.9;
+
+            font-weight: 700;
+
+            text-shadow:
+                0 2px 6px rgba(0,0,0,0.65);
+        }
+
+
+        /* =====================================================
+           MAIN CONTACT
+        ===================================================== */
+
+        .main-contact {
+
+            margin-top: 22px;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 12px;
+
+            padding: 11px 22px;
+
+            border-radius: 30px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(189,28,28,0.95),
+                    rgba(120,10,10,0.95)
+                );
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: 700;
+
+            direction: ltr;
+
+            box-shadow:
+                0 6px 20px rgba(0,0,0,0.30);
+        }
+
+
+        .main-contact span {
+
+            opacity: 0.6;
+        }
+
+
+        .main-contact a {
+
+            color: white;
+
+            text-decoration: none;
+        }
+
+
+        /* =====================================================
+           SECTION TITLE
+        ===================================================== */
+
+        .section-title {
+
+            text-align: center;
+
+            font-size: 30px;
+
+            color: white;
+
+            margin: 55px 0 30px 0;
+
+            font-family: 'Reem Kufi', sans-serif;
+
+            text-shadow:
+                0 3px 8px rgba(0,0,0,0.75);
+        }
+
+
         .section-title::after {
-            content: ''; display: block; width: 60px; height: 4px; background: #bd1c1c; margin: 8px auto 0 auto; border-radius: 2px;
-        }
-        
-        /* بطاقات عرض السيارات الزجاجية البيضاء الفاخرة المريحة للعين */
-        .cars-grid { display: flex; flex-wrap: wrap; gap: 40px; justify-content: center; max-width: 1200px; margin: 0 auto 40px auto; }
-        .car-card { 
-            background: rgba(255, 255, 255, 0.88); border-radius: 20px; overflow: hidden; width: 360px; 
-            border: 1px solid rgba(255, 255, 255, 0.8); box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
-            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); position: relative; 
-        }
-        .car-card:hover { 
-            transform: translateY(-8px); border-color: rgba(189, 28, 28, 0.3); box-shadow: 0 15px 35px rgba(189, 28, 28, 0.1);
-        }
-        
-        .badge { position: absolute; top: 15px; right: 15px; padding: 6px 15px; border-radius: 30px; font-size: 12px; font-weight: bold; z-index: 2; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .badge-popular { background: linear-gradient(135deg, #ff9f43, #ff5252); color: #fff; }
-        .badge-fire { background: linear-gradient(135deg, #ff3333, #990000); color: #fff; }
 
-        .car-img-container { width: 100%; height: 230px; overflow: hidden; position: relative; background: #e2e8f0; }
-        .car-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
-        .car-card:hover .car-img { transform: scale(1.06); }
-        
-        .car-info { padding: 25px; }
-        .car-title { font-size: 22px; margin-bottom: 10px; color: #0f172a; font-weight: 700; }
-        .car-price { font-size: 20px; color: #bd1c1c; font-weight: bold; margin-bottom: 18px; display: inline-block; }
-        
-        .car-specs { list-style: none; margin-bottom: 22px; border-top: 1px solid rgba(0,0,0,0.06); padding-top: 12px; }
-        .car-specs li { font-size: 14px; color: #475569; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; font-weight: 500; }
-        .spec-icon { color: #bd1c1c; font-size: 14px; }
-        
-        /* زر تواصل مباشر يفتح تطبيق الواتساب بنجاح وبدون أي حظر */
-        .btn-inquire { 
-            background: linear-gradient(135deg, #25D366, #128C7E); color: white; padding: 13px; text-decoration: none; font-size: 16px; font-weight: bold; border-radius: 12px; display: flex; justify-content: center; align-items: center; gap: 8px; transition: all 0.3s; 
-            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.2); animation: pulse-whatsapp 2s infinite;
+            content: '';
+
+            display: block;
+
+            width: 70px;
+
+            height: 4px;
+
+            background: #bd1c1c;
+
+            margin: 10px auto 0;
+
+            border-radius: 2px;
+
+            box-shadow:
+                0 0 12px rgba(189,28,28,0.8);
         }
-        .btn-inquire:hover { filter: brightness(1.1); transform: translateY(-1px); }
-        
+
+
+        /* =====================================================
+           CARS GRID
+        ===================================================== */
+
+        .cars-grid {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 40px;
+
+            justify-content: center;
+
+            max-width: 1200px;
+
+            margin: 0 auto 50px;
+        }
+
+
+        /* =====================================================
+           CAR CARD
+        ===================================================== */
+
+        .car-card {
+
+            background: rgba(255,255,255,0.89);
+
+            border-radius: 20px;
+
+            overflow: hidden;
+
+            width: 360px;
+
+            border:
+                1px solid rgba(255,255,255,0.85);
+
+            box-shadow:
+                0 15px 40px rgba(0,0,0,0.25);
+
+            backdrop-filter: blur(15px);
+
+            -webkit-backdrop-filter: blur(15px);
+
+            transition:
+                transform 0.4s ease,
+                box-shadow 0.4s ease,
+                border-color 0.4s ease;
+
+            position: relative;
+        }
+
+
+        .car-card:hover {
+
+            transform: translateY(-10px);
+
+            border-color:
+                rgba(189,28,28,0.55);
+
+            box-shadow:
+
+                0 20px 45px rgba(0,0,0,0.32),
+
+                0 0 25px rgba(189,28,28,0.15);
+        }
+
+
+        /* =====================================================
+           BADGES
+        ===================================================== */
+
+        .badge {
+
+            position: absolute;
+
+            top: 15px;
+
+            right: 15px;
+
+            padding: 7px 15px;
+
+            border-radius: 30px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            z-index: 2;
+
+            box-shadow:
+                0 5px 15px rgba(0,0,0,0.20);
+        }
+
+
+        .badge-popular {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff9f43,
+                    #ff5252
+                );
+
+            color: white;
+        }
+
+
+        .badge-fire {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff3333,
+                    #990000
+                );
+
+            color: white;
+        }
+
+
+        /* =====================================================
+           CAR IMAGE
+        ===================================================== */
+
+        .car-img-container {
+
+            width: 100%;
+
+            height: 230px;
+
+            overflow: hidden;
+
+            position: relative;
+
+            background: #e2e8f0;
+        }
+
+
+        .car-img {
+
+            width: 100%;
+
+            height: 100%;
+
+            object-fit: cover;
+
+            transition:
+                transform 0.5s ease;
+        }
+
+
+        .car-card:hover .car-img {
+
+            transform: scale(1.06);
+        }
+
+
+        /* =====================================================
+           CAR INFORMATION
+        ===================================================== */
+
+        .car-info {
+
+            padding: 25px;
+        }
+
+
+        .car-title {
+
+            font-size: 22px;
+
+            margin: 0 0 10px;
+
+            color: #0f172a;
+
+            font-weight: 700;
+        }
+
+
+        .car-price {
+
+            font-size: 20px;
+
+            color: #bd1c1c;
+
+            font-weight: bold;
+
+            margin-bottom: 18px;
+
+            display: inline-block;
+        }
+
+
+        /* =====================================================
+           SPECS
+        ===================================================== */
+
+        .car-specs {
+
+            list-style: none;
+
+            margin: 0 0 22px;
+
+            border-top:
+                1px solid rgba(0,0,0,0.08);
+
+            padding: 14px 0 0;
+        }
+
+
+        .car-specs li {
+
+            font-size: 14px;
+
+            color: #475569;
+
+            margin-bottom: 9px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            font-weight: 500;
+        }
+
+
+        .spec-icon {
+
+            color: #bd1c1c;
+
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           CONTACT BUTTONS
+        ===================================================== */
+
+        .contact-buttons {
+
+            display: flex;
+
+            gap: 10px;
+
+            width: 100%;
+        }
+
+
+        .contact-buttons .btn-inquire {
+
+            flex: 1;
+
+            color: white;
+
+            padding: 13px 10px;
+
+            text-decoration: none;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            border-radius: 12px;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            gap: 6px;
+
+            transition: all 0.3s ease;
+        }
+
+
+        /* =====================================================
+           WHATSAPP
+        ===================================================== */
+
+        .whatsapp-btn {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #25D366,
+                    #128C7E
+                );
+
+            box-shadow:
+                0 5px 15px rgba(37,211,102,0.25);
+
+            animation:
+                pulse-whatsapp 2s infinite;
+        }
+
+
+        /* =====================================================
+           PHONE
+        ===================================================== */
+
+        .phone-btn {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #bd1c1c,
+                    #7f0d0d
+                );
+
+            box-shadow:
+                0 5px 15px rgba(189,28,28,0.25);
+        }
+
+
+        .contact-buttons .btn-inquire:hover {
+
+            transform: translateY(-2px);
+
+            filter: brightness(1.1);
+        }
+
+
+        /* =====================================================
+           WHATSAPP ANIMATION
+        ===================================================== */
+
         @keyframes pulse-whatsapp {
-            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+
+            0% {
+
+                box-shadow:
+                    0 0 0 0
+                    rgba(37,211,102,0.40);
+            }
+
+            70% {
+
+                box-shadow:
+                    0 0 0 10px
+                    rgba(37,211,102,0);
+            }
+
+            100% {
+
+                box-shadow:
+                    0 0 0 0
+                    rgba(37,211,102,0);
+            }
         }
+
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        footer {
+
+            text-align: center;
+
+            margin-top: 60px;
+
+            padding: 25px;
+
+            color: white;
+
+            background:
+                rgba(0,0,0,0.35);
+
+            border-radius: 20px;
+
+            backdrop-filter: blur(10px);
+
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+
+        footer .footer-logo {
+
+            font-family: 'Orbitron', sans-serif;
+
+            color: #ff3333;
+
+            font-size: 18px;
+
+            font-weight: bold;
+
+            letter-spacing: 3px;
+
+            margin-bottom: 10px;
+        }
+
+
+        footer p {
+
+            margin: 5px 0;
+
+            font-size: 14px;
+        }
+
+
+        footer a {
+
+            color: white;
+
+            text-decoration: none;
+
+            font-weight: bold;
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 768px) {
+
+            body {
+
+                background-attachment: scroll;
+
+                background-position: center top;
+            }
+
+
+            .page-container {
+
+                padding:
+                    15px
+                    12px
+                    40px;
+            }
+
+
+            .top-navbar {
+
+                justify-content: center;
+
+                margin-bottom: 20px;
+            }
+
+
+            .filter-container {
+
+                width: 100%;
+
+                justify-content: center;
+
+                gap: 3px;
+
+                padding: 5px;
+            }
+
+
+            .filter-btn {
+
+                padding: 8px 10px;
+
+                font-size: 12px;
+            }
+
+
+            header {
+
+                padding: 25px 15px;
+
+                margin-bottom: 35px;
+            }
+
+
+            .logo-text {
+
+                font-size: 43px;
+            }
+
+
+            .sub-logo {
+
+                font-size: 12px;
+
+                letter-spacing: 3px;
+            }
+
+
+            .welcome-msg {
+
+                font-size: 15px;
+
+                line-height: 1.8;
+            }
+
+
+            .main-contact {
+
+                font-size: 14px;
+
+                padding: 10px 15px;
+
+                gap: 8px;
+            }
+
+
+            .section-title {
+
+                font-size: 24px;
+
+                margin-top: 40px;
+            }
+
+
+            .cars-grid {
+
+                gap: 25px;
+            }
+
+
+            .car-card {
+
+                width: 100%;
+
+                max-width: 400px;
+            }
+
+
+            .car-img-container {
+
+                height: 220px;
+            }
+        }
+
+
+        /* =====================================================
+           VERY SMALL PHONES
+        ===================================================== */
+
+        @media (max-width: 400px) {
+
+            .contact-buttons {
+
+                flex-direction: column;
+            }
+
+
+            .filter-btn {
+
+                padding:
+                    8px 7px;
+
+                font-size: 11px;
+            }
+
+
+            .main-contact {
+
+                flex-direction: column;
+
+                border-radius: 18px;
+            }
+
+
+            .main-contact span {
+
+                display: none;
+            }
+        }
+
     </style>
+
 </head>
+
+
 <body>
 
-    <!-- أزرار الترتيب مصفوفة بدقة في أعلى اليمين بالتوالي -->
+
+<div class="page-container">
+
+
+    <!-- =====================================================
+         TOP FILTER
+    ===================================================== -->
+
     <nav class="top-navbar">
+
         <div class="filter-container">
-            <button class="filter-btn active">الكل 📋</button>
-            <button class="filter-btn">الأكثر شعبية ⭐</button>
-            <button class="filter-btn">أسعار الحرق ⚡</button>
+
+            <button
+                class="filter-btn active"
+                type="button"
+            >
+                الكل 📋
+            </button>
+
+
+            <button
+                class="filter-btn"
+                type="button"
+            >
+                الأكثر شعبية ⭐
+            </button>
+
+
+            <button
+                class="filter-btn"
+                type="button"
+            >
+                أسعار الحرق ⚡
+            </button>
+
         </div>
+
     </nav>
 
+
+
+    <!-- =====================================================
+         HEADER
+    ===================================================== -->
+
     <header>
-        <div class="logo-text">الـوَارد</div>
-        <div class="sub-logo">AL-WARID MOTORS</div>
-        <p class="welcome-msg">أهلاً وسهلاً بك في معرض الوارد لتجارة السيارات المستعملة. نقدّم لك أفخم وأجود السيارات المستعملة بأفضل الأسعار وبحالة الوكالة.</p>
+
+        <div class="logo-text">
+            الـوَارد
+        </div>
+
+
+        <div class="sub-logo">
+            AL-WARID MOTORS
+        </div>
+
+
+        <p class="welcome-msg">
+
+            أهلاً وسهلاً بك في معرض الوارد لتجارة السيارات المستعملة.
+            نقدّم لك أفخم وأجود السيارات المستعملة بأفضل الأسعار
+            وبحالة الوكالة.
+
+        </p>
+
+
+        <!-- MAIN PHONE + WHATSAPP -->
+
+        <div class="main-contact">
+
+            <a
+                href="tel:+971562400397"
+            >
+                📞 056 240 0397
+            </a>
+
+            <span>|</span>
+
+            <a
+                href="https://wa.me/971562400397"
+                target="_blank"
+            >
+                💬 واتساب متوفر
+            </a>
+
+        </div>
+
     </header>
 
-    <!-- قسم الأكثر شعبية -->
-    <div class="section-title">🔥 الأكثر شعبية في المعرض</div>
-    <div class="cars-grid">
-        {% for car in cars %}
-        <div class="car-card">
-            <span class="badge badge-popular">الأكثر شعبية ⭐</span>
-            <div class="car-img-container">
-                <img src="{{ car.image }}" alt="{{ car.title }}" class="car-img">
-            </div>
-            <div class="car-info">
-                <h2 class="car-title">{{ car.title }}</h2>
-                <div class="car-price">{{ car.price }}</div>
-                <ul class="car-specs">
-                    {% for spec in car.specs %}
-                    <li><span class="spec-icon">⚪</span> {{ spec }}</li>
-                    {% endfor %}
-                </ul>
-                <a href="https://wa.me{{ car.title }}" class="btn-inquire" target="_blank">استفسر عبر الواتساب 💬</a>
-            </div>
-        </div>
-        {% endfor %}
+
+
+    <!-- =====================================================
+         POPULAR SECTION
+    ===================================================== -->
+
+    <div class="section-title">
+
+        🔥 الأكثر شعبية في المعرض
+
     </div>
 
-    <!-- قسم عروض أسعار الحرق -->
-    <div class="section-title">⚡ عروض أسعار الحرق (لفترة محدودة)</div>
+
     <div class="cars-grid">
+
+
+        {% for car in cars %}
+
+
         <div class="car-card">
-            <span class="badge badge-fire">سعر حرق 💥</span>
+
+
+            <span class="badge badge-popular">
+
+                الأكثر شعبية ⭐
+
+            </span>
+
+
+            <!-- CAR IMAGE -->
+
             <div class="car-img-container">
-                <img src="https://unsplash.com" alt="سيارة عرض" class="car-img">
+
+                <img
+                    src="{{ car.image }}"
+                    alt="{{ car.title }}"
+                    class="car-img"
+                >
+
             </div>
+
+
+            <!-- CAR INFO -->
+
             <div class="car-info">
-                <h2 class="car-title">بي إم دبليو الفئة الخامسة</h2>
-                <div class="car-price">130,000 درهم <span style="font-size:13px; color:#64748b; text-decoration:line-through;">(160,000)</span></div>
+
+
+                <h2 class="car-title">
+
+                    {{ car.title }}
+
+                </h2>
+
+
+                <div class="car-price">
+
+                    {{ car.price }}
+
+                </div>
+
+
+                <!-- SPECS -->
+
                 <ul class="car-specs">
-                    <li><span class="spec-icon">⚪</span> الممشى: 30,000 كم</li>
-                    <li><span class="spec-icon">⚪</span> الموديل: 2021</li>
-                    <li><span class="spec-icon">⚪</span> صيانة وكالة بالكامل وعرض خاص حرق</li>
+
+                    {% for spec in car.specs %}
+
+                    <li>
+
+                        <span class="spec-icon">
+                            ⚪
+                        </span>
+
+                        {{ spec }}
+
+                    </li>
+
+                    {% endfor %}
+
                 </ul>
-                <a href="https://wa.me" class="btn-inquire" target="_blank">استفسر عن عرض الحرق 💬</a>
+
+
+                <!-- PHONE + WHATSAPP -->
+
+                <div class="contact-buttons">
+
+
+                    <a
+                        href="https://wa.me/971562400397"
+                        class="btn-inquire whatsapp-btn"
+                        target="_blank"
+                    >
+                        💬 واتساب
+                    </a>
+
+
+                    <a
+                        href="tel:+971562400397"
+                        class="btn-inquire phone-btn"
+                    >
+                        📞 اتصال
+                    </a>
+
+
+                </div>
+
+
             </div>
+
         </div>
+
+
+        {% endfor %}
+
+
     </div>
+
+
+
+    <!-- =====================================================
+         HOT DEALS
+    ===================================================== -->
+
+    <div class="section-title">
+
+        ⚡ عروض أسعار الحرق
+
+        <span style="font-size:18px;">
+            (لفترة محدودة)
+        </span>
+
+    </div>
+
+
+
+    <div class="cars-grid">
+
+
+        <!-- HOT DEAL CARD -->
+
+        <div class="car-card">
+
+
+            <span class="badge badge-fire">
+
+                سعر حرق 💥
+
+            </span>
+
+
+            <!-- DEAL IMAGE -->
+
+            <div class="car-img-container">
+
+                <img
+                    src="https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=1000&q=80"
+                    alt="بي إم دبليو الفئة الخامسة"
+                    class="car-img"
+                >
+
+            </div>
+
+
+            <!-- DEAL INFO -->
+
+            <div class="car-info">
+
+
+                <h2 class="car-title">
+
+                    بي إم دبليو الفئة الخامسة
+
+                </h2>
+
+
+                <div class="car-price">
+
+                    130,000 درهم
+
+                    <span
+                        style="
+                            font-size:13px;
+                            color:#64748b;
+                            text-decoration:line-through;
+                        "
+                    >
+                        (160,000)
+                    </span>
+
+                </div>
+
+
+                <ul class="car-specs">
+
+                    <li>
+
+                        <span class="spec-icon">
+                            ⚪
+                        </span>
+
+                        الممشى: 30,000 كم
+
+                    </li>
+
+
+                    <li>
+
+                        <span class="spec-icon">
+                            ⚪
+                        </span>
+
+                        الموديل: 2021
+
+                    </li>
+
+
+                    <li>
+
+                        <span class="spec-icon">
+                            ⚪
+                        </span>
+
+                        صيانة وكالة بالكامل وعرض خاص حرق
+
+                    </li>
+
+                </ul>
+
+
+                <!-- DEAL CONTACT -->
+
+                <div class="contact-buttons">
+
+
+                    <a
+                        href="https://wa.me/971562400397"
+                        class="btn-inquire whatsapp-btn"
+                        target="_blank"
+                    >
+                        💬 واتساب
+                    </a>
+
+
+                    <a
+                        href="tel:+971562400397"
+                        class="btn-inquire phone-btn"
+                    >
+                        📞 اتصال
+                    </a>
+
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =====================================================
+         FOOTER
+    ===================================================== -->
+
+    <footer>
+
+        <div class="footer-logo">
+            AL-WARID MOTORS
+        </div>
+
+
+        <p>
+            معرض الوارد لتجارة السيارات المستعملة
+        </p>
+
+
+        <p>
+
+            📞
+            <a href="tel:+971562400397">
+                056 240 0397
+            </a>
+
+            &nbsp;&nbsp; | &nbsp;&nbsp;
+
+            💬
+            <a
+                href="https://wa.me/971562400397"
+                target="_blank"
+            >
+                WhatsApp
+            </a>
+
+        </p>
+
+
+        <p style="opacity:0.65; margin-top:15px;">
+            جميع الحقوق محفوظة © AL-WARID MOTORS
+        </p>
+
+    </footer>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     FILTER BUTTON SCRIPT
+===================================================== -->
+
+<script>
+
+    const filterButtons =
+        document.querySelectorAll('.filter-btn');
+
+
+    filterButtons.forEach(button => {
+
+        button.addEventListener('click', function () {
+
+            filterButtons.forEach(btn => {
+
+                btn.classList.remove('active');
+
+            });
+
+
+            this.classList.add('active');
+
+        });
+
+    });
+
+</script>
+
 
 </body>
+
 </html>
