@@ -1,70 +1,293 @@
+```html
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة تحكم معرض الوارد - إضافة سيارة</title>
-    <link rel="preconnect" href="https://googleapis.com">
-    <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+
+    <title>ALWARID-MOTORS | Car Sales</title>
+
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { 
-            background: #1a1a1a; font-family: 'Tajawal', sans-serif; color: #fff;
-            display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .admin-box { 
-            background: #2a2a2a; padding: 30px; border-radius: 15px; 
-            max-width: 500px; width: 100%; border: 1px solid #444; box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            color: white;
+            min-height: 100vh;
+
+            /* WEBSITE BACKGROUND IMAGE */
+            background:
+                linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)),
+                url("https://images.unsplash.com/photo-1504215680853-026ed2a45def?auto=format&fit=crop&w=2000&q=80");
+
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
-        h1 { font-size: 24px; text-align: center; margin-bottom: 25px; color: #ff3333; }
-        .form-group { margin-bottom: 18px; }
-        label { display: block; margin-bottom: 8px; font-size: 14px; color: #ccc; }
-        input[type="text"] { 
-            width: 100%; padding: 12px; background: #333; border: 1px solid #555; 
-            border-radius: 6px; color: #fff; font-size: 16px; font-family: 'Tajawal', sans-serif;
+
+        /* HEADER */
+        header {
+            text-align: center;
+            padding: 35px 20px 20px;
         }
-        input[type="text"]:focus { border-color: #ff3333; outline: none; }
-        .btn-submit { 
-            width: 100%; background: #ff3333; color: white; padding: 14px; 
-            border: none; font-size: 18px; font-weight: bold; border-radius: 6px; 
-            cursor: pointer; transition: background 0.3s; margin-top: 10px; font-family: 'Tajawal', sans-serif;
+
+        .showroom-name {
+            font-size: 48px;
+            font-weight: bold;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
         }
-        .btn-submit:hover { background: #cc2424; }
+
+        .subtitle {
+            margin-top: 10px;
+            font-size: 20px;
+            color: #ddd;
+        }
+
+        /* SALES BANNER */
+        .sales-banner {
+            width: 90%;
+            max-width: 1200px;
+            margin: 25px auto;
+            padding: 20px;
+            text-align: center;
+
+            background: rgba(0, 0, 0, 0.65);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+
+            backdrop-filter: blur(8px);
+        }
+
+        .sales-banner h2 {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .sales-banner p {
+            color: #ddd;
+            font-size: 17px;
+        }
+
+        /* CAR GRID */
+        .car-container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 35px auto 60px;
+
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+
+        /* CAR CARD */
+        .car-card {
+            background: rgba(20, 20, 20, 0.85);
+            border-radius: 18px;
+            overflow: hidden;
+
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+
+            transition: transform 0.3s ease,
+                        box-shadow 0.3s ease;
+        }
+
+        .car-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8);
+        }
+
+        .car-card img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .car-info {
+            padding: 20px;
+        }
+
+        .car-info h3 {
+            font-size: 25px;
+            margin-bottom: 8px;
+        }
+
+        .car-info p {
+            color: #ccc;
+            margin-bottom: 15px;
+        }
+
+        .price {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .offer {
+            display: inline-block;
+            padding: 8px 14px;
+            border-radius: 20px;
+
+            background: #ffffff;
+            color: #111;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        /* CONTACT BUTTON */
+        .contact-section {
+            text-align: center;
+            padding-bottom: 50px;
+        }
+
+        .contact-button {
+            display: inline-block;
+            padding: 15px 35px;
+
+            background: white;
+            color: black;
+
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+
+            border-radius: 30px;
+
+            transition: 0.3s;
+        }
+
+        .contact-button:hover {
+            transform: scale(1.05);
+            background: #ddd;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 25px;
+            background: rgba(0, 0, 0, 0.75);
+            color: #aaa;
+        }
+
+        /* MOBILE */
+        @media (max-width: 700px) {
+
+            .showroom-name {
+                font-size: 32px;
+                letter-spacing: 3px;
+            }
+
+            .subtitle {
+                font-size: 16px;
+            }
+
+            .car-container {
+                grid-template-columns: 1fr;
+            }
+
+            .car-card img {
+                height: 230px;
+            }
+        }
     </style>
 </head>
+
 <body>
 
-    <div class="admin-box">
-        <h1>لوحة تحكم إضافة السيارات لـ "الوارد"</h1>
-        <form method="POST">
-            <div class="form-group">
-                <label>اسم السيارة وموديلها:</label>
-                <input type="text" name="title" placeholder="مثال: نيسان باترول SE" required>
+    <!-- SHOWROOM HEADER -->
+    <header>
+        <h1 class="showroom-name">ALWARID-MOTORS</h1>
+        <p class="subtitle">Premium Cars • Great Prices • Amazing Offers</p>
+    </header>
+
+
+    <!-- SALES OFFER -->
+    <section class="sales-banner">
+        <h2>🔥 Special Car Sales Offers 🔥</h2>
+        <p>Find your next car at ALWARID-MOTORS</p>
+    </section>
+
+
+    <!-- FOUR CARS -->
+    <section class="car-container">
+
+        <!-- CAR 1 -->
+        <div class="car-card">
+            <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=1000&q=80"
+                 alt="Luxury Car">
+
+            <div class="car-info">
+                <h3>Luxury Sedan</h3>
+                <p>Premium interior • Automatic • Low mileage</p>
+                <div class="price">$35,000</div>
+                <span class="offer">SPECIAL OFFER</span>
             </div>
-            <div class="form-group">
-                <label>سعر السيارة:</label>
-                <input type="text" name="price" placeholder="مثال: 120,000 ريال" required>
+        </div>
+
+
+        <!-- CAR 2 -->
+        <div class="car-card">
+            <img src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=1000&q=80"
+                 alt="Sports Car">
+
+            <div class="car-info">
+                <h3>Sports Car</h3>
+                <p>Powerful engine • Sport design • Automatic</p>
+                <div class="price">$42,000</div>
+                <span class="offer">LIMITED OFFER</span>
             </div>
-            <div class="form-group">
-                <label>رابط صورة السيارة على الإنترنت:</label>
-                <input type="text" name="image_url" placeholder="ضع رابط الصورة هنا (اختياري)">
+        </div>
+
+
+        <!-- CAR 3 -->
+        <div class="car-card">
+            <img src="https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=1000&q=80"
+                 alt="SUV">
+
+            <div class="car-info">
+                <h3>Premium SUV</h3>
+                <p>Family SUV • Spacious • Comfortable</p>
+                <div class="price">$48,000</div>
+                <span class="offer">SPECIAL PRICE</span>
             </div>
-            <div class="form-group">
-                <label>المواصفة الأولى:</label>
-                <input type="text" name="spec1" placeholder="مثال: الممشى 50,000 كم">
+        </div>
+
+
+        <!-- CAR 4 -->
+        <div class="car-card">
+            <img src="https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&w=1000&q=80"
+                 alt="Modern Car">
+
+            <div class="car-info">
+                <h3>Modern Sedan</h3>
+                <p>Modern design • Fuel efficient • Excellent condition</p>
+                <div class="price">$29,500</div>
+                <span class="offer">HOT DEAL</span>
             </div>
-            <div class="form-group">
-                <label>المواصفة الثانية:</label>
-                <input type="text" name="spec2" placeholder="مثال: محرك 6 سلندر">
-            </div>
-            <div class="form-group">
-                <label>المواصفة الثالثة:</label>
-                <input type="text" name="spec3" placeholder="مثال: صبغة وكالة بالكامل">
-            </div>
-            <button type="submit" class="btn-submit">نشر السيارة في المعرض فوراً 🚀</button>
-        </form>
-    </div>
+        </div>
+
+    </section>
+
+
+    <!-- CONTACT -->
+    <section class="contact-section">
+        <a href="mailto:your@email.com" class="contact-button">
+            Contact ALWARID-MOTORS
+        </a>
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer>
+        © 2026 ALWARID-MOTORS — All Rights Reserved
+    </footer>
 
 </body>
 </html>
+```
