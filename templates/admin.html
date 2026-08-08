@@ -1,27 +1,31 @@
-```html
+from flask import Flask, render_template_string
+
+app = Flask(__name__)
+
+html = """
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>ALWARID-MOTORS | Car Sales</title>
+    <title>Reward Used Cars</title>
 
     <style>
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
 
         body {
-            font-family: Arial, Helvetica, sans-serif;
+            font-family: Arial, sans-serif;
             color: white;
-            min-height: 100vh;
 
-            /* WEBSITE BACKGROUND IMAGE */
+            /* Background */
             background:
-                linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)),
+                linear-gradient(rgba(0, 0, 0, 0.72),
+                                rgba(0, 0, 0, 0.82)),
                 url("https://images.unsplash.com/photo-1504215680853-026ed2a45def?auto=format&fit=crop&w=2000&q=80");
 
             background-size: cover;
@@ -29,170 +33,146 @@
             background-attachment: fixed;
         }
 
-        /* HEADER */
+        /* Header */
         header {
             text-align: center;
-            padding: 35px 20px 20px;
+            padding: 35px 20px;
+            background: rgba(0, 0, 0, 0.75);
+            border-bottom: 2px solid #e63946;
         }
 
-        .showroom-name {
-            font-size: 48px;
-            font-weight: bold;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+        header h1 {
+            font-size: 42px;
+            letter-spacing: 3px;
+            color: #ffffff;
         }
 
-        .subtitle {
+        header p {
             margin-top: 10px;
-            font-size: 20px;
-            color: #ddd;
+            font-size: 18px;
+            color: #dddddd;
         }
 
-        /* SALES BANNER */
-        .sales-banner {
-            width: 90%;
-            max-width: 1200px;
-            margin: 25px auto;
-            padding: 20px;
+        /* Contact section */
+        .contact {
             text-align: center;
-
-            background: rgba(0, 0, 0, 0.65);
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-
-            backdrop-filter: blur(8px);
+            padding: 25px;
         }
 
-        .sales-banner h2 {
-            font-size: 30px;
-            margin-bottom: 8px;
-        }
-
-        .sales-banner p {
-            color: #ddd;
-            font-size: 17px;
-        }
-
-        /* CAR GRID */
-        .car-container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 35px auto 60px;
-
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 25px;
-        }
-
-        /* CAR CARD */
-        .car-card {
-            background: rgba(20, 20, 20, 0.85);
-            border-radius: 18px;
-            overflow: hidden;
-
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-
-            transition: transform 0.3s ease,
-                        box-shadow 0.3s ease;
-        }
-
-        .car-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8);
-        }
-
-        .car-card img {
-            width: 100%;
-            height: 280px;
-            object-fit: cover;
-            display: block;
-        }
-
-        .car-info {
-            padding: 20px;
-        }
-
-        .car-info h3 {
-            font-size: 25px;
-            margin-bottom: 8px;
-        }
-
-        .car-info p {
-            color: #ccc;
-            margin-bottom: 15px;
-        }
-
-        .price {
+        .phone {
             font-size: 22px;
             font-weight: bold;
             margin-bottom: 15px;
         }
 
-        .offer {
+        .whatsapp {
             display: inline-block;
-            padding: 8px 14px;
-            border-radius: 20px;
-
-            background: #ffffff;
-            color: #111;
-            font-weight: bold;
-            font-size: 14px;
-        }
-
-        /* CONTACT BUTTON */
-        .contact-section {
-            text-align: center;
-            padding-bottom: 50px;
-        }
-
-        .contact-button {
-            display: inline-block;
-            padding: 15px 35px;
-
-            background: white;
-            color: black;
-
+            padding: 13px 25px;
+            background: #25D366;
+            color: white;
             text-decoration: none;
+            border-radius: 8px;
             font-size: 18px;
             font-weight: bold;
-
-            border-radius: 30px;
-
             transition: 0.3s;
         }
 
-        .contact-button:hover {
+        .whatsapp:hover {
+            background: #1ebe5d;
             transform: scale(1.05);
-            background: #ddd;
         }
 
-        /* FOOTER */
+        /* Cars section */
+        .cars-container {
+            width: 92%;
+            max-width: 1400px;
+            margin: 20px auto 60px;
+        }
+
+        .cars-grid {
+            display: grid;
+
+            /* 4 cars in each row */
+            grid-template-columns: repeat(4, 1fr);
+
+            gap: 25px;
+        }
+
+        /* Car card */
+        .car-card {
+            background: rgba(20, 20, 20, 0.92);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+            transition: 0.3s;
+        }
+
+        .car-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .car-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .car-info {
+            padding: 18px;
+            text-align: center;
+        }
+
+        .car-info h2 {
+            font-size: 21px;
+            margin-bottom: 8px;
+        }
+
+        .price {
+            color: #e63946;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .details {
+            display: inline-block;
+            padding: 9px 18px;
+            background: #e63946;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        .details:hover {
+            background: #c92535;
+        }
+
+        /* Footer */
         footer {
             text-align: center;
             padding: 25px;
-            background: rgba(0, 0, 0, 0.75);
+            background: rgba(0, 0, 0, 0.85);
             color: #aaa;
         }
 
-        /* MOBILE */
-        @media (max-width: 700px) {
+        /* Mobile */
+        @media (max-width: 1000px) {
+            .cars-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
 
-            .showroom-name {
-                font-size: 32px;
-                letter-spacing: 3px;
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 30px;
             }
 
-            .subtitle {
-                font-size: 16px;
-            }
-
-            .car-container {
+            .cars-grid {
                 grid-template-columns: 1fr;
             }
 
             .car-card img {
-                height: 230px;
+                height: 250px;
             }
         }
     </style>
@@ -200,94 +180,199 @@
 
 <body>
 
-    <!-- SHOWROOM HEADER -->
+    <!-- HEADER -->
     <header>
-        <h1 class="showroom-name">ALWARID-MOTORS</h1>
-        <p class="subtitle">Premium Cars • Great Prices • Amazing Offers</p>
+        <h1>REWARD USED CARS</h1>
+        <p>Your Trusted Used Car Showroom</p>
     </header>
 
 
-    <!-- SALES OFFER -->
-    <section class="sales-banner">
-        <h2>🔥 Special Car Sales Offers 🔥</h2>
-        <p>Find your next car at ALWARID-MOTORS</p>
-    </section>
-
-
-    <!-- FOUR CARS -->
-    <section class="car-container">
-
-        <!-- CAR 1 -->
-        <div class="car-card">
-            <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=1000&q=80"
-                 alt="Luxury Car">
-
-            <div class="car-info">
-                <h3>Luxury Sedan</h3>
-                <p>Premium interior • Automatic • Low mileage</p>
-                <div class="price">$35,000</div>
-                <span class="offer">SPECIAL OFFER</span>
-            </div>
-        </div>
-
-
-        <!-- CAR 2 -->
-        <div class="car-card">
-            <img src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=1000&q=80"
-                 alt="Sports Car">
-
-            <div class="car-info">
-                <h3>Sports Car</h3>
-                <p>Powerful engine • Sport design • Automatic</p>
-                <div class="price">$42,000</div>
-                <span class="offer">LIMITED OFFER</span>
-            </div>
-        </div>
-
-
-        <!-- CAR 3 -->
-        <div class="car-card">
-            <img src="https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=1000&q=80"
-                 alt="SUV">
-
-            <div class="car-info">
-                <h3>Premium SUV</h3>
-                <p>Family SUV • Spacious • Comfortable</p>
-                <div class="price">$48,000</div>
-                <span class="offer">SPECIAL PRICE</span>
-            </div>
-        </div>
-
-
-        <!-- CAR 4 -->
-        <div class="car-card">
-            <img src="https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&w=1000&q=80"
-                 alt="Modern Car">
-
-            <div class="car-info">
-                <h3>Modern Sedan</h3>
-                <p>Modern design • Fuel efficient • Excellent condition</p>
-                <div class="price">$29,500</div>
-                <span class="offer">HOT DEAL</span>
-            </div>
-        </div>
-
-    </section>
-
-
     <!-- CONTACT -->
-    <section class="contact-section">
-        <a href="mailto:your@email.com" class="contact-button">
-            Contact ALWARID-MOTORS
+    <section class="contact">
+
+        <div class="phone">
+            📞 056-24-00-397
+        </div>
+
+        <!-- WhatsApp -->
+        <a
+            class="whatsapp"
+            href="https://wa.me/971562400397"
+            target="_blank">
+            💬 Contact Us on WhatsApp
         </a>
+
+    </section>
+
+
+    <!-- CARS -->
+    <section class="cars-container">
+
+        <div class="cars-grid">
+
+            <!-- CAR 1 -->
+            <div class="car-card">
+                <img src="https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&w=800&q=80">
+                <div class="car-info">
+                    <h2>Toyota Camry</h2>
+                    <div class="price">AED 55,000</div>
+                    <a class="details" href="https://wa.me/971562400397">
+                        Ask About This Car
+                    </a>
+                </div>
+            </div>
+
+            <!-- CAR 2 -->
+            <div class="car-card">
+                <img src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=800&q=80">
+                <div class="car-info">
+                    <h2>BMW 5 Series</h2>
+                    <div class="price">AED 95,000</div>
+                    <a class="details" href="https://wa.me/971562400397">
+                        Ask About This Car
+                    </a>
+                </div>
+            </div>
+
+            <!-- CAR 3 -->
+            <div class="car-card">
+                <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80">
+                <div class="car-info">
+                    <h2>Porsche 911</h2>
+                    <div class="price">AED 180,000</div>
+                    <a class="details" href="https://wa.me/971562400397">
+                        Ask About This Car
+                    </a>
+                </div>
+            </div>
+
+            <!-- CAR 4 -->
+            <div class="car-card">
+                <img src="https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?auto=format&fit=crop&w=800&q=80">
+                <div class="car-info">
+                    <h2>Mercedes-Benz</h2>
+                    <div class="price">AED 120,000</div>
+                    <a class="details" href="https://wa.me/971562400397">
+                        Ask About This Car
+                    </a>
+                </div>
+            </div>
+
+            <!-- CAR 5 -->
+            <div class="car-card">
+                <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=800&q=80">
+                <div class="car-info">
+                    <h2>Chevrolet Camaro</h2>
+                    <div class="price">AED 75,000</div>
+                    <a class="details" href="https://wa.me/971562400397">
+                        Ask About This Car
+                    </a>
+                </div>
+            </div>
+
+            <!-- CAR 6 -->
+            <div class="car-card">
+                <img src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=800&q=80">
+                <div class="car-info">
+                    <h2>Ford Mustang</h2>
+                    <div class="price">AED 85,000</div>
+                    <a class="details" href="https://wa.me/971562400397">
+                        Ask About This Car
+                    </a>
+                </div>
+            </div>
+
+            <!-- CAR 7 -->
+            <div class="car-card">
+                <img src="https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=800&q=80">
+                <div class="car-info">
+                    <h2>Audi Q8</h2>
+                    <div class="price">AED 150,000</div>
+                    <a class="details" href="https://wa.me/971562400397">
+                        Ask About This Car
+                    </a>
+                </div>
+            </div>
+
+            <!-- CAR 8 -->
+            <div class="car-card">
+                <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=800&q=80">
+                <div class="car-info">
+                    <h2>Range Rover</h2>
+                    <div class="price">AED 190,000</div>
+                    <a class="details" href="https://wa.me/971562400397">
+                        Ask About This Car
+                    </a>
+                </div>
+            </div>
+
+            <!-- CAR 9 -->
+            <div class="car-card">
+                <img src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=800&q=80">
+                <div class="car-info">
+                    <h2>Mercedes C-Class</h2>
+                    <div class="price">AED 90,000</div>
+                    <a class="details" href="https://wa.me/971562400397">
+                        Ask About This Car
+                    </a>
+                </div>
+            </div>
+
+            <!-- CAR 10 -->
+            <div class="car-card">
+                <img src="https://images.unsplash.com/photo-1551830820-330a71b99659?auto=format&fit=crop&w=800&q=80">
+                <div class="car-info">
+                    <h2>BMW X5</h2>
+                    <div class="price">AED 135,000</div>
+                    <a class="details" href="https://wa.me/971562400397">
+                        Ask About This Car
+                    </a>
+                </div>
+            </div>
+
+            <!-- CAR 11 -->
+            <div class="car-card">
+                <img src="https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=800&q=80">
+                <div class="car-info">
+                    <h2>Toyota Land Cruiser</h2>
+                    <div class="price">AED 160,000</div>
+                    <a class="details" href="https://wa.me/971562400397">
+                        Ask About This Car
+                    </a>
+                </div>
+            </div>
+
+            <!-- CAR 12 -->
+            <div class="car-card">
+                <img src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=800&q=80">
+                <div class="car-info">
+                    <h2>Nissan Patrol</h2>
+                    <div class="price">AED 145,000</div>
+                    <a class="details" href="https://wa.me/971562400397">
+                        Ask About This Car
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
     </section>
 
 
     <!-- FOOTER -->
     <footer>
-        © 2026 ALWARID-MOTORS — All Rights Reserved
+        © 2026 Reward Used Cars | 056-24-00-397
     </footer>
 
 </body>
 </html>
-```
+"""
+
+
+@app.route("/")
+def home():
+    return render_template_string(html)
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
